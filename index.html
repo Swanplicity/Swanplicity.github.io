@@ -3,35 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Swan Wallet — by Swanplicity</title>
-<meta name="description" content="Swan Wallet by Casey Swan. Send and receive in seconds, hold your Bitcoin address, and carry a digital card that listens.">
+<title>Swanplicity — GoldenSwan Wallet, Miner Portal & More by Casey Swan</title>
+<meta name="description" content="Swanplicity by Casey Swan — home of GoldenSwan Wallet, the Miner Portal and fleet, Swan Bridge, and the Prestige Provider Catalog with 141 sweepstakes games for licensing.">
+<meta name="robots" content="index, follow">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="canonical" href="https://swanplicity.github.io/">
+<meta property="og:title" content="Swanplicity — GoldenSwan Wallet, Miner Portal & More by Casey Swan">
+<meta property="og:description" content="Swanplicity by Casey Swan — home of GoldenSwan Wallet, the Miner Portal and fleet, Swan Bridge, and the Prestige Provider Catalog with 141 sweepstakes games for licensing.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://swanplicity.github.io/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swanplicity — GoldenSwan Wallet, Miner Portal & More by Casey Swan">
+<meta name="twitter:description" content="Swanplicity by Casey Swan — home of GoldenSwan Wallet, the Miner Portal and fleet, Swan Bridge, and the Prestige Provider Catalog with 141 sweepstakes games for licensing.">
 <style>
   :root{
-    --ink:#0d1117; --ink2:#131a24; --gold:#d4af37; --gold2:#f0d778;
-    --paper:#f5f1e6; --muted:#9aa7b4; --card:#161e29; --line:#26303d;
+    --ink:#0d1117; --ink2:#131a24; --velvet:#0a0e14;
+    --gold:#d4af37; --gold2:#f0d778; --gold-dim:#b8962e;
+    --paper:#f5f1e6; --muted:#aab6c2; --muted2:#c7d0da;
+    --card:#161e29; --card2:#1a2433; --line:#2a3646; --line-gold:#3d3420;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--ink);color:var(--paper);font-family:Georgia,'Times New Roman',serif;line-height:1.55}
-  .wrap{max-width:880px;margin:0 auto;padding:0 20px}
-  header{padding:28px 0 8px;display:flex;align-items:center;gap:14px}
-  .mark{width:52px;height:52px;border:2px solid var(--gold);border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    font-size:28px;color:var(--gold);font-style:italic;background:var(--ink2)}
-  .brand h1{font-size:26px;letter-spacing:.5px;font-weight:600}
-  .brand p{color:var(--muted);font-size:13px;letter-spacing:2px;text-transform:uppercase;font-family:Helvetica,Arial,sans-serif}
-  .hero{padding:56px 0 30px;text-align:left}
-  .hero h2{font-size:44px;line-height:1.15;font-weight:600;max-width:640px}
-  .hero h2 em{color:var(--gold);font-style:italic}
-  .hero p{margin-top:18px;font-size:18px;color:var(--muted);max-width:560px;font-family:Helvetica,Arial,sans-serif}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;padding:26px 0 10px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  html{scroll-behavior:smooth}
+  html,body{overflow-x:hidden;max-width:100%}
+  body{background:radial-gradient(1200px 600px at 50% -100px, #1c2736 0%, var(--velvet) 55%);color:var(--paper);font-family:Georgia,'Times New Roman',serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--gold2)}
+  a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--gold2);outline-offset:3px;border-radius:4px}
+  .skip{position:absolute;left:-9999px;top:0;background:var(--gold);color:#0d1117;padding:10px 16px;font-family:Helvetica,Arial,sans-serif;font-weight:700;z-index:50}
+  .skip:focus{left:12px;top:12px}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px}
+  /* Nav */
+  .site-header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+  .nav{display:flex;align-items:center;gap:18px;padding:14px 0;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--paper);margin-right:auto}
+  .mark{width:46px;height:46px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:25px;color:var(--gold);font-style:italic;background:var(--ink2);flex-shrink:0}
+  .brand-name{font-size:22px;letter-spacing:.4px;font-weight:600;line-height:1.1}
+  .brand-sub{color:var(--muted);font-size:11px;letter-spacing:2px;text-transform:uppercase;font-family:Helvetica,Arial,sans-serif}
+  .nav-links{display:flex;gap:4px;flex-wrap:wrap;list-style:none;font-family:Helvetica,Arial,sans-serif}
+  .nav-links a{color:var(--muted2);text-decoration:none;font-size:14px;padding:8px 10px;border-radius:8px}
+  .nav-links a:hover{color:var(--gold2);background:var(--card)}
+  .nav-cta{background:var(--gold);color:#0d1117 !important;font-weight:700}
+  .nav-cta:hover{background:var(--gold2);color:#0d1117 !important}
+  /* Hero */
+  .hero{padding:56px 0 28px;text-align:left}
+  .eyebrow{color:var(--gold);font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:14px}
+  .hero h1{font-size:48px;line-height:1.12;font-weight:600;max-width:680px;letter-spacing:-.2px}
+  .hero h1 em{color:var(--gold);font-style:italic}
+  .hero p{margin-top:18px;font-size:18px;color:var(--muted);max-width:620px;font-family:Helvetica,Arial,sans-serif}
+  .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px;font-family:Helvetica,Arial,sans-serif}
+  .btn{display:inline-block;text-decoration:none;font-weight:700;font-size:15px;padding:13px 20px;border-radius:10px;border:1px solid var(--gold)}
+  .btn-primary{background:var(--gold);color:#0d1117}
+  .btn-primary:hover{background:var(--gold2)}
+  .btn-ghost{background:transparent;color:var(--gold2)}
+  .btn-ghost:hover{background:var(--card)}
+  .trust-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:28px 0 6px}
+  .trust-item{background:rgba(22,30,41,.85);border:1px solid var(--line-gold);border-radius:12px;padding:14px 16px;font-family:Helvetica,Arial,sans-serif}
+  .trust-item strong{display:block;color:var(--gold2);font-size:14px;margin-bottom:3px}
+  .trust-item span{color:var(--muted);font-size:13.5px}
+  /* Sections */
+  section{scroll-margin-top:90px}
+  .section-title{font-size:26px;color:var(--paper);margin:40px 0 6px;font-weight:600}
+  .section-title span{color:var(--gold)}
+  .section-intro{color:var(--muted);font-size:15.5px;font-family:Helvetica,Arial,sans-serif;max-width:660px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;padding:18px 0 8px}
+  .card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:14px;padding:22px;transition:border-color .15s ease, transform .15s ease}
+  .card:hover{border-color:var(--gold-dim);transform:translateY(-2px)}
   .card h3{color:var(--gold2);font-size:18px;margin-bottom:8px;font-weight:600}
   .card p{color:var(--muted);font-size:15px;font-family:Helvetica,Arial,sans-serif}
-  .fine{border-top:1px solid var(--line);margin-top:38px;padding:22px 0 8px;
-    color:var(--muted);font-size:13.5px;font-family:Helvetica,Arial,sans-serif}
-  footer{padding:26px 0 40px;color:var(--muted);font-size:13px;font-family:Helvetica,Arial,sans-serif;
-    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .card a{font-weight:600}
+  /* Ad slots */
+  .ad-slot{border:1.5px dashed var(--gold-dim);background:#10161f;border-radius:12px;padding:18px;margin:28px 0 6px;text-align:center;font-family:Helvetica,Arial,sans-serif}
+  .ad-slot .ad-label{display:inline-block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#0d1117;background:var(--gold);border-radius:3px;padding:2px 7px;margin-bottom:8px}
+  .ad-slot p{color:var(--muted);font-size:13.5px}
+  /* Trust list */
+  .trust-list{list-style:none;margin-top:16px;display:grid;gap:12px;font-family:Helvetica,Arial,sans-serif}
+  .trust-list li{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:16px 18px;color:var(--muted);font-size:15px}
+  .trust-list strong{color:var(--paper)}
+  /* FAQ */
+  .faq{margin-top:16px;display:grid;gap:12px}
+  details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px 18px}
+  details[open]{border-color:var(--gold-dim)}
+  summary{cursor:pointer;padding:14px 0;font-size:17px;color:var(--gold2);font-weight:600;list-style-position:inside}
+  details p{color:var(--muted);font-size:15px;font-family:Helvetica,Arial,sans-serif;padding:0 0 16px}
+  .fine{border-top:1px solid var(--line);margin-top:40px;padding:22px 0 8px;color:var(--muted);font-size:13.5px;font-family:Helvetica,Arial,sans-serif}
+  footer{padding:26px 0 42px;color:var(--muted);font-size:13px;font-family:Helvetica,Arial,sans-serif;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--line);margin-top:20px}
+  footer nav{display:flex;gap:16px;flex-wrap:wrap}
+  footer a{color:var(--gold2)}
   footer .g{color:var(--gold)}
+  @media (max-width:640px){
+    .hero h1{font-size:34px}
+    .hero{padding:34px 0 18px}
+    .nav{gap:10px}
+    .brand-name{font-size:20px}
+    .section-title{font-size:23px}
+  }
 </style>
 </head>
 <body>
@@ -41,52 +105,163 @@
   <a href="https://getstartedtiktok.partnerlinks.io/5qn11k2zkatm" style="color:#f0d778;font-size:16px;font-weight:bold;text-decoration:none">The music, the dances, the karaoke, the real everyday moments — everybody's already on TikTok. Get in on it — tap here</a>
 </div>
 <!-- TIKTOK-AD-BANNER-END -->
-<div class="wrap">
-  <header>
-    <div class="mark">S</div>
-    <div class="brand">
-      <h1>Swan Wallet</h1>
-      <p>Swanplicity</p>
-    </div>
-  </header>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-header">
+  <div class="wrap">
+    <nav class="nav" aria-label="Main navigation">
+      <a class="brand" href="./" aria-label="Swanplicity home">
+        <span class="mark" aria-hidden="true">S</span>
+        <span>
+          <span class="brand-name">Swanplicity</span><br>
+          <span class="brand-sub">By Casey Swan</span>
+        </span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#wallet">Wallet</a></li>
+        <li><a href="#miners">Miners</a></li>
+        <li><a href="#bridge">Bridge</a></li>
+        <li><a href="#games">Games</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a class="nav-cta" href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-  <section class="hero">
-    <h2>Your money, <em>kept simple.</em></h2>
-    <p>Swan Wallet is the home of the Swan Balance — send and receive in seconds, keep your Bitcoin address in one big, easy place, and carry a digital card that does what you tell it.</p>
+<main id="main" class="wrap">
+  <section class="hero" aria-labelledby="page-title">
+    <p class="eyebrow">Casey Swan · Casey's Cinema Creations</p>
+    <h1 id="page-title">Everything Swanplicity, <em>in one place.</em></h1>
+    <p>Swanplicity is the home of Casey Swan's apps and projects — GoldenSwan Wallet, the Miner Portal and fleet, Swan Bridge, and the Prestige Provider Catalog. Find it all here, with no account needed to browse.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="fleet/">Open the Miner Portal</a>
+      <a class="btn btn-ghost" href="https://muse.ai/s/prestige-games-provider-catalog-lw9xjxfxvxazxpxjx0/pDAhwX_BUbjCIdjc7i2XHrmbX1-yDJNj8hpMZI8OQXQ" rel="noopener" target="_blank">Browse 141 games for licensing</a>
+    </div>
+    <div class="trust-strip" aria-label="Key facts">
+      <div class="trust-item"><strong>No account to browse</strong><span>This site is open to everyone.</span></div>
+      <div class="trust-item"><strong>Bitcoin-only cash-out</strong><span>To your own Bitcoin address only.</span></div>
+      <div class="trust-item"><strong>Bridge holds nothing</strong><span>Swan Bridge holds no keys and no money.</span></div>
+    </div>
   </section>
 
-  <section class="cards">
-    <div class="card">
-      <h3>Send &amp; receive, instantly</h3>
-      <p>Swan-to-Swan sends are live and instant inside the app — no waiting, no confusion, every move recorded in your history.</p>
-    </div>
-    <div class="card">
-      <h3>Your Bitcoin, your address</h3>
-      <p>Your Bitcoin address lives on one clear screen, big and copy-ready. Cash out to your own Bitcoin address — fees shown before you confirm, never after.</p>
-    </div>
-    <div class="card">
-      <h3>A card that listens</h3>
-      <p>Freeze your digital card in one tap. Turn online purchases and international use on or off whenever you like.</p>
+  <!-- AD SLOT 1: Paste the ad network code here (replaces the placeholder box below). Keep exactly one ad unit in this slot. -->
+  <div class="ad-slot" role="complementary" aria-label="Advertisement">
+    <span class="ad-label">Advertisement</span>
+    <p>Ad space — sponsor message will appear here.</p>
+  </div>
+
+  <section id="wallet" aria-labelledby="wallet-title">
+    <h2 class="section-title" id="wallet-title">GoldenSwan <span>Wallet</span></h2>
+    <p class="section-intro">Your money, kept simple. GoldenSwan Wallet is the home of the Swan Balance.</p>
+    <div class="cards">
+      <article class="card">
+        <h3>Send &amp; receive, instantly</h3>
+        <p>Swan-to-Swan sends are live and instant inside the app — no waiting, no confusion, every move recorded in your history.</p>
+      </article>
+      <article class="card">
+        <h3>Your Bitcoin, your address</h3>
+        <p>Your Bitcoin address lives on one clear screen, big and copy-ready. Cash out only to your own Bitcoin address — fees shown before you confirm, never after.</p>
+      </article>
+      <article class="card">
+        <h3>A card that listens</h3>
+        <p>Freeze your digital card in one tap. Turn online purchases and international use on or off whenever you like.</p>
+      </article>
     </div>
   </section>
 
-  <section class="cards">
-    <div class="card">
-      <h3>Bitcoin miners</h3>
-      <p><a href="fleet/" style="color:var(--gold2)">Miner Portal — run the fleet</a><br>Open the portal and run Casey Swan's standalone miner fleet right in your browser.</p>
-    </div>
-    <div class="card">
-      <h3>Swan Bridge</h3>
-      <p><a href="bridge/" style="color:var(--gold2)">Swan Bridge for PC — download</a><br>The small PC program the miners connect through. It holds no keys and no money.</p>
+  <section id="miners" aria-labelledby="miners-title">
+    <h2 class="section-title" id="miners-title">Miner Portal <span>&amp; Fleet</span></h2>
+    <p class="section-intro">Run Casey Swan's standalone Bitcoin miner fleet right in your browser.</p>
+    <div class="cards">
+      <article class="card">
+        <h3>Miner Portal</h3>
+        <p><a href="fleet/">Miner Portal — run the fleet</a><br>Open the portal and run the fleet. Miners connect through Swan Bridge and pay out in Bitcoin only.</p>
+      </article>
+      <article class="card" id="bridge">
+        <h3>Swan Bridge</h3>
+        <p><a href="bridge/">Swan Bridge for PC — download</a><br>The small PC program the miners connect through. It holds no keys and no money.</p>
+      </article>
     </div>
   </section>
 
-  <p class="fine">Swan Wallet is a product of Casey's Cinema Creations under Swanplicity. Swan-to-Swan sends are live inside the app. Cash in and out and Bitcoin deposits plug in through the licensed Payment Portal. This page is the wallet's public home on the web.</p>
+  <section id="games" aria-labelledby="games-title">
+    <h2 class="section-title" id="games-title">Prestige Provider <span>Catalog</span></h2>
+    <p class="section-intro">Games built for licensing to operators.</p>
+    <div class="cards">
+      <article class="card">
+        <h3>141 games for licensing</h3>
+        <p><a href="https://muse.ai/s/prestige-games-provider-catalog-lw9xjxfxvxazxpxjx0/pDAhwX_BUbjCIdjc7i2XHrmbX1-yDJNj8hpMZI8OQXQ" rel="noopener" target="_blank">Prestige Provider Catalog — 141 sweepstakes games for licensing</a><br>Browse 141 sweepstakes games available for licensing, with playable trials.</p>
+      </article>
+      <article class="card">
+        <h3>Privacy Policy</h3>
+        <p><a href="privacy.html">Privacy Policy</a><br>How Swanplicity handles information across its apps and sites.</p>
+      </article>
+    </div>
+  </section>
 
-  <footer>
+  <!-- AD SLOT 2: Paste the ad network code here (replaces the placeholder box below). Keep exactly one ad unit in this slot. -->
+  <div class="ad-slot" role="complementary" aria-label="Advertisement">
+    <span class="ad-label">Advertisement</span>
+    <p>Ad space — sponsor message will appear here.</p>
+  </div>
+
+  <section id="trust" aria-labelledby="trust-title">
+    <h2 class="section-title" id="trust-title">Trust <span>&amp; Security</span></h2>
+    <p class="section-intro">Plain facts about how these products work. No hype.</p>
+    <ul class="trust-list">
+      <li><strong>Swan Bridge holds no keys and no money.</strong> It only carries miners' work to the mining pool and the pool's jobs back. The pool pays the Bitcoin address directly.</li>
+      <li><strong>Cash-out is Bitcoin-only.</strong> GoldenSwan Wallet cash-out goes only to your own Bitcoin address, with the fee shown before you confirm.</li>
+      <li><strong>No account needed to browse this site.</strong> You can read every page here without signing up or signing in.</li>
+      <li><strong>No trackers on this page.</strong> This page sets no cookies, runs no external scripts, and loads no trackers.</li>
+      <li><strong>Read the <a href="privacy.html">Privacy Policy</a>.</strong> It explains, in plain words, what information each product uses and why.</li>
+    </ul>
+  </section>
+
+  <section id="faq" aria-labelledby="faq-title">
+    <h2 class="section-title" id="faq-title">Frequently Asked <span>Questions</span></h2>
+    <div class="faq">
+      <details>
+        <summary>What is Swanplicity?</summary>
+        <p>Swanplicity is Casey Swan's umbrella for his apps and projects, built under Casey's Cinema Creations. This site is its public home — the wallet, the miners, the bridge, and the game catalog all live here.</p>
+      </details>
+      <details>
+        <summary>What is GoldenSwan Wallet?</summary>
+        <p>GoldenSwan Wallet is a wallet app where Swan-to-Swan sends are instant inside the app and your Bitcoin address lives on one clear screen. Cash-out is Bitcoin-only, to your own Bitcoin address, with fees shown before you confirm.</p>
+      </details>
+      <details>
+        <summary>How do the miners work?</summary>
+        <p>The miners run in your browser and connect through Swan Bridge to a solo mining pool. Solo pools pay only when a whole block is found — the full block reward goes to the wallet address the miners are set to. That means most days pay nothing, and a found block pays all at once. The miners show only real, pool-reported numbers.</p>
+      </details>
+      <details>
+        <summary>How do I license games?</summary>
+        <p>Open the Prestige Provider Catalog to browse 141 sweepstakes games for licensing and try the playable trials. For pricing and licensing, email <a href="mailto:deshawnjohnson.talentscout@gmail.com">deshawnjohnson.talentscout@gmail.com</a>.</p>
+      </details>
+      <details>
+        <summary>How do I contact you?</summary>
+        <p>For business inquiries, email Deshawn Johnson, Agent, at <a href="mailto:deshawnjohnson.talentscout@gmail.com">deshawnjohnson.talentscout@gmail.com</a>.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-title">
+    <h2 class="section-title" id="contact-title">Contact</h2>
+    <p class="section-intro">Business inquiries: <a href="mailto:deshawnjohnson.talentscout@gmail.com">deshawnjohnson.talentscout@gmail.com</a> — Deshawn Johnson, Agent, Casey's Cinema Creations.</p>
+  </section>
+
+  <p class="fine">GoldenSwan Wallet is a product of Casey's Cinema Creations under Swanplicity. Swan-to-Swan sends are live inside the app. Cash-out is Bitcoin-only, to your own Bitcoin address. This page is the public home of Swanplicity on the web.</p>
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;width:100%">
     <span>© Casey Swan — Casey's Cinema Creations</span>
-    <span class="g">Swan Wallet · Swanplicity</span>
-  </footer>
-</div>
+    <nav aria-label="Footer">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="fleet/">Miner Portal</a>
+      <a href="bridge/">Swan Bridge</a>
+      <a href="mailto:deshawnjohnson.talentscout@gmail.com">Contact</a>
+    </nav>
+    <span class="g">GoldenSwan Wallet · Swanplicity</span>
+  </div>
+</footer>
 </body>
 </html>
