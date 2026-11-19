@@ -70,6 +70,10 @@
   .card h3{color:var(--gold2);font-size:18px;margin-bottom:8px;font-weight:600}
   .card p{color:var(--muted);font-size:15px;font-family:Helvetica,Arial,sans-serif}
   .card a{font-weight:600}
+  .price{color:var(--gold);font-size:26px;font-weight:700;margin:6px 0 10px;font-family:Helvetica,Arial,sans-serif}
+  .price small{font-size:14px;color:var(--muted);font-weight:400}
+  .buy-btn{display:inline-block;margin-top:10px;background:var(--gold);color:#0d1117 !important;text-decoration:none;font-weight:700;font-size:14px;padding:10px 16px;border-radius:9px;font-family:Helvetica,Arial,sans-serif}
+  .buy-btn:hover{background:var(--gold2)}
   /* Ad slots */
   .ad-slot{border:1.5px dashed var(--gold-dim);background:#10161f;border-radius:12px;padding:18px;margin:28px 0 6px;text-align:center;font-family:Helvetica,Arial,sans-serif}
   .ad-slot .ad-label{display:inline-block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#0d1117;background:var(--gold);border-radius:3px;padding:2px 7px;margin-bottom:8px}
@@ -100,9 +104,9 @@
 </head>
 <body>
 <!-- TIKTOK-AD-BANNER-START (house ad for Casey's TikTok link — delete this whole block, START to END, to remove the banner) -->
-<div style="background:#131a24;border-bottom:2px solid #d4af37;padding:10px 16px;text-align:center;font-family:Helvetica,Arial,sans-serif">
-  <span style="display:inline-block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#0d1117;background:#d4af37;border-radius:3px;padding:1px 6px;margin-right:10px;vertical-align:middle">Ad</span>
-  <a href="https://getstartedtiktok.partnerlinks.io/5qn11k2zkatm" style="color:#f0d778;font-size:16px;font-weight:bold;text-decoration:none">The music, the dances, the karaoke, the real everyday moments — everybody's already on TikTok. Get in on it — tap here</a>
+<div role="complementary" aria-label="Advertisement" style="display:block;visibility:visible;position:relative;z-index:60;background:linear-gradient(90deg,#d4af37,#f0d778,#d4af37);border-bottom:3px solid #0d1117;padding:16px 16px;text-align:center;font-family:Helvetica,Arial,sans-serif">
+  <span style="display:inline-block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#f5f1e6;background:#0d1117;border-radius:3px;padding:3px 8px;margin-right:10px;vertical-align:middle;font-weight:700">Ad</span>
+  <a href="https://getstartedtiktok.partnerlinks.io/5qn11k2zkatm" style="color:#0d1117;font-size:18px;font-weight:800;text-decoration:underline">The music, the dances, the karaoke, the real everyday moments — everybody's already on TikTok. Get in on it — tap here</a>
 </div>
 <!-- TIKTOK-AD-BANNER-END -->
 <a class="skip" href="#main">Skip to main content</a>
@@ -121,6 +125,7 @@
         <li><a href="#miners">Miners</a></li>
         <li><a href="#bridge">Bridge</a></li>
         <li><a href="#games">Games</a></li>
+        <li><a href="#forsale">For Sale</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li><a class="nav-cta" href="#contact">Contact</a></li>
       </ul>
@@ -195,6 +200,113 @@
       <article class="card">
         <h3>Privacy Policy</h3>
         <p><a href="privacy.html">Privacy Policy</a><br>How Swanplicity handles information across its apps and sites.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="forsale" aria-labelledby="forsale-title">
+    <h2 class="section-title" id="forsale-title">For <span>Sale</span></h2>
+    <p class="section-intro">Everything for sale, with the price on it. To buy or order, tap the button on any item — it opens a pre-filled email to Deshawn Johnson at deshawnjohnson.talentscout@gmail.com with the item and price already in it. Card checkout plugs in through the Payment Portal as soon as Stripe activation finishes.</p>
+
+    <h3 style="color:var(--gold2);font-size:20px;margin:24px 0 4px;font-weight:600">Prestige game licenses — 141 sweepstakes games</h3>
+    <div class="cards">
+      <article class="card">
+        <h3>Standard Game License</h3>
+        <p class="price">$999 <small>each game</small></p>
+        <p>License one standard game from the Prestige catalog.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20Standard%20Game%20License%20%E2%80%94%20%24999&amp;body=I%20want%20to%20order%3A%20Standard%20Game%20License%20%E2%80%94%20%24999%20each.%0A%0AName%3A%0AGame(s)%20I%20want%3A%0A">Buy / Order — $999</a>
+      </article>
+      <article class="card">
+        <h3>Prestige Original License</h3>
+        <p class="price">$1,499 <small>each game</small></p>
+        <p>License one Prestige Original game.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20Prestige%20Original%20License%20%E2%80%94%20%241%2C499&amp;body=I%20want%20to%20order%3A%20Prestige%20Original%20License%20%E2%80%94%20%241%2C499%20each.%0A%0AName%3A%0AGame(s)%20I%20want%3A%0A">Buy / Order — $1,499</a>
+      </article>
+      <article class="card">
+        <h3>10 or More Games</h3>
+        <p class="price">$899 <small>each game</small></p>
+        <p>Volume price when you license 10 or more games.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%2010%2B%20Games%20%E2%80%94%20%24899%20each&amp;body=I%20want%20to%20order%3A%2010%20or%20more%20games%20%E2%80%94%20%24899%20each.%0A%0AName%3A%0AGames%20I%20want%3A%0A">Buy / Order — $899 each</a>
+      </article>
+      <article class="card">
+        <h3>25 or More Games</h3>
+        <p class="price">$799 <small>each game</small></p>
+        <p>Volume price when you license 25 or more games.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%2025%2B%20Games%20%E2%80%94%20%24799%20each&amp;body=I%20want%20to%20order%3A%2025%20or%20more%20games%20%E2%80%94%20%24799%20each.%0A%0AName%3A%0AGames%20I%20want%3A%0A">Buy / Order — $799 each</a>
+      </article>
+      <article class="card">
+        <h3>Pack of 10 Games</h3>
+        <p class="price">$4,999 <small>pack of 10</small></p>
+        <p>A bundle of 10 games for one pack price.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20Pack%20of%2010%20Games%20%E2%80%94%20%244%2C999&amp;body=I%20want%20to%20order%3A%20Pack%20of%2010%20Games%20%E2%80%94%20%244%2C999.%0A%0AName%3A%0A">Buy / Order — $4,999</a>
+      </article>
+      <article class="card">
+        <h3>Pack of 25 Games</h3>
+        <p class="price">$9,999 <small>pack of 25</small></p>
+        <p>A bundle of 25 games for one pack price.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20Pack%20of%2025%20Games%20%E2%80%94%20%249%2C999&amp;body=I%20want%20to%20order%3A%20Pack%20of%2025%20Games%20%E2%80%94%20%249%2C999.%0A%0AName%3A%0A">Buy / Order — $9,999</a>
+      </article>
+      <article class="card">
+        <h3>Full Catalog — 141 Games</h3>
+        <p class="price">$24,999 <small>full catalog</small></p>
+        <p>License the full catalog of 141 games.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20Full%20Catalog%20(141%20Games)%20%E2%80%94%20%2424%2C999&amp;body=I%20want%20to%20order%3A%20Full%20Catalog%20License%20(141%20games)%20%E2%80%94%20%2424%2C999.%0A%0AName%3A%0A">Buy / Order — $24,999</a>
+      </article>
+      <article class="card">
+        <h3>Revenue Share Option</h3>
+        <p class="price">8% <small>revenue share</small></p>
+        <p>License games for 8% revenue share, with no monthly minimum.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20Game%20License%20%E2%80%94%208%25%20Revenue%20Share&amp;body=I%20want%20to%20order%3A%20Game%20license%20on%208%25%20revenue%20share%2C%20no%20monthly%20minimum.%0A%0AName%3A%0AGames%20I%20want%3A%0A">Buy / Order — 8% share</a>
+      </article>
+    </div>
+
+    <h3 style="color:var(--gold2);font-size:20px;margin:24px 0 4px;font-weight:600">Downloadable tools</h3>
+    <div class="cards">
+      <article class="card">
+        <h3>InvoiceQuick</h3>
+        <p class="price">$16</p>
+        <p>Downloadable invoicing tool.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20InvoiceQuick%20%E2%80%94%20%2416&amp;body=I%20want%20to%20order%3A%20InvoiceQuick%20%E2%80%94%20%2416.%0A%0AName%3A%0A">Buy / Order — $16</a>
+      </article>
+      <article class="card">
+        <h3>QRQuick</h3>
+        <p class="price">$12</p>
+        <p>Downloadable QR code tool.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20QRQuick%20%E2%80%94%20%2412&amp;body=I%20want%20to%20order%3A%20QRQuick%20%E2%80%94%20%2412.%0A%0AName%3A%0A">Buy / Order — $12</a>
+      </article>
+      <article class="card">
+        <h3>MenuQR</h3>
+        <p class="price">$19</p>
+        <p>Downloadable menu QR tool.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20MenuQR%20%E2%80%94%20%2419&amp;body=I%20want%20to%20order%3A%20MenuQR%20%E2%80%94%20%2419.%0A%0AName%3A%0A">Buy / Order — $19</a>
+      </article>
+      <article class="card">
+        <h3>RateCalc</h3>
+        <p class="price">$10</p>
+        <p>Downloadable rate calculator tool.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20RateCalc%20%E2%80%94%20%2410&amp;body=I%20want%20to%20order%3A%20RateCalc%20%E2%80%94%20%2410.%0A%0AName%3A%0A">Buy / Order — $10</a>
+      </article>
+      <article class="card">
+        <h3>ConcreteCalc</h3>
+        <p class="price">$14</p>
+        <p>Downloadable concrete calculator tool.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20ConcreteCalc%20%E2%80%94%20%2414&amp;body=I%20want%20to%20order%3A%20ConcreteCalc%20%E2%80%94%20%2414.%0A%0AName%3A%0A">Buy / Order — $14</a>
+      </article>
+      <article class="card">
+        <h3>WeddingCalc</h3>
+        <p class="price">$10</p>
+        <p>Downloadable wedding budget calculator tool.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20WeddingCalc%20%E2%80%94%20%2410&amp;body=I%20want%20to%20order%3A%20WeddingCalc%20%E2%80%94%20%2410.%0A%0AName%3A%0A">Buy / Order — $10</a>
+      </article>
+    </div>
+
+    <h3 style="color:var(--gold2);font-size:20px;margin:24px 0 4px;font-weight:600">Miner upgrade</h3>
+    <div class="cards">
+      <article class="card">
+        <h3>Miner Pro Upgrade</h3>
+        <p class="price">$4.99 <small>/month</small></p>
+        <p>Pro upgrade for the miners.</p>
+        <a class="buy-btn" href="mailto:deshawnjohnson.talentscout@gmail.com?subject=Order%3A%20Miner%20Pro%20Upgrade%20%E2%80%94%20%244.99%2Fmonth&amp;body=I%20want%20to%20order%3A%20Miner%20Pro%20Upgrade%20%E2%80%94%20%244.99%2Fmonth.%0A%0AName%3A%0A">Buy / Order — $4.99/month</a>
       </article>
     </div>
   </section>
