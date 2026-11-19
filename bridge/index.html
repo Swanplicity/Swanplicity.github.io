@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swan Bridge for PC — Swanplicity</title>
+<meta name="description" content="Download the Swan Bridge for PC by Casey Swan. The small program Casey Swan's browser miners connect through.">
+<style>
+  :root{
+    --ink:#0d1117; --ink2:#131a24; --gold:#d4af37; --gold2:#f0d778;
+    --paper:#f5f1e6; --muted:#9aa7b4; --card:#161e29; --line:#26303d;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--ink);color:var(--paper);font-family:Georgia,'Times New Roman',serif;line-height:1.55}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px}
+  header{padding:28px 0 8px}
+  .brand h1{font-size:26px;letter-spacing:.5px;font-weight:600}
+  .brand p{color:var(--muted);font-size:13px;letter-spacing:2px;text-transform:uppercase;font-family:Helvetica,Arial,sans-serif}
+  .hero{padding:40px 0 10px}
+  .hero h2{font-size:34px;line-height:1.15;font-weight:600}
+  .hero h2 em{color:var(--gold);font-style:italic}
+  .hero p{margin-top:14px;font-size:17px;color:var(--muted);max-width:600px;font-family:Helvetica,Arial,sans-serif}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;padding:26px 0 10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+  .card h3{color:var(--gold2);font-size:18px;margin-bottom:8px;font-weight:600}
+  .card p{color:var(--muted);font-size:15px;font-family:Helvetica,Arial,sans-serif}
+  .card a{color:var(--gold2)}
+  .steps{padding:14px 0 4px;color:var(--muted);font-size:15.5px;font-family:Helvetica,Arial,sans-serif}
+  .steps li{margin:6px 0 6px 20px}
+  footer{padding:26px 0 40px;color:var(--muted);font-size:13px;font-family:Helvetica,Arial,sans-serif;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  footer .g{color:var(--gold)}
+  footer a{color:var(--gold2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>Swan Bridge for PC</h1>
+      <p>Swanplicity</p>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h2>One small program. <em>Every miner connects through it.</em></h2>
+    <p>Swan Bridge is the relay the browser miners talk through: miners connect to it on your own PC, and it passes their work to the pool and the pool's jobs back. It holds no keys, no wallet, and no money — the pool pays the miner's Bitcoin address directly.</p>
+  </section>
+
+  <section class="cards">
+    <div class="card">
+      <h3>1. The bridge program</h3>
+      <p><a href="swan-bridge.js" download>Download swan-bridge.js</a> — the bridge itself. It needs Node.js on your PC.</p>
+    </div>
+    <div class="card">
+      <h3>2. The starter</h3>
+      <p><a href="Start-Bridge.bat" download>Download Start-Bridge.bat</a> — double-click it to run the bridge, and it restarts the bridge by itself if it ever stops.</p>
+    </div>
+  </section>
+
+  <ol class="steps">
+    <li>Put both files in one folder on your PC.</li>
+    <li>Double-click Start-Bridge.bat and leave the window open — it will say miners connect at ws://127.0.0.1:3333.</li>
+    <li>Open the <a href="../fleet/" style="color:var(--gold2)">Miner Portal</a> and your miners connect through the bridge on their own.</li>
+  </ol>
+
+  <footer>
+    <span>© Casey Swan — Casey's Cinema Creations</span>
+    <span><a href="../">Swan Wallet home</a> · <span class="g">Swan Bridge · Swanplicity</span></span>
+  </footer>
+</div>
+</body>
+</html>

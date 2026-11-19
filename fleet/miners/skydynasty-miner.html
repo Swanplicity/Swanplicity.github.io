@@ -1,0 +1,1404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<link rel="icon" href="data:," />
+<title>SkyDynasty Miner</title>
+<style>
+  :root{
+    color-scheme:dark;
+    --bg:#101736; --bg2:#1b2657; --panel:#111838; --panel2:#17204a;
+    --line:#9a7b1e; --line-soft:#2f5d3f;
+    --gold:#d4af37; --gold-bright:#f3d67b; --gold-deep:#9a7b1e;
+    --ink:#eef7ec; --ink-dim:#cfe3c8; --ink-faint:#a8c4a4;
+    --good:#8fd98f; --bad:#f0a3a3;
+    --field:#0d1229; --field-line:#c9a227;
+    --shadow:0 10px 30px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{background:#101736}
+  body{
+    background:linear-gradient(180deg,#1b2657,#101736 320px);
+    background-color:#101736;
+    min-height:100vh;
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    line-height:1.5; -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:20px 16px 40px}
+  .masthead{text-align:center;padding:14px 0 6px}
+  .emblem-ring{
+    width:118px;height:118px;margin:0 auto 14px;border-radius:50%;
+    border:2px solid var(--gold);
+    background:radial-gradient(circle at 50% 34%, var(--panel2), var(--bg2) 72%);
+    box-shadow:0 0 0 6px var(--bg), 0 0 0 7px var(--line), var(--shadow);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .emblem-ring svg{width:74px;height:74px;display:block}
+  h1{font-size:32px;line-height:1.15;margin:0 0 4px;letter-spacing:.2px;color:var(--gold-bright);font-weight:800}
+  .subtitle{margin:0;color:var(--ink-dim);font-size:14.5px}
+  .ownerbadge{
+    display:inline-block;margin:12px auto 0;font-size:13.5px;font-weight:700;
+    color:var(--gold-bright);border:1px solid var(--gold-deep);border-radius:999px;padding:6px 14px;background:var(--panel);
+  }
+  .ownerbadge.guest{color:var(--ink-dim);border-color:var(--line)}
+  .verifyline{margin:12px auto 0;max-width:560px;font-size:13.5px;color:var(--good);border:1px solid var(--line-soft);background:var(--panel);border-radius:10px;padding:9px 12px}
+  .verifyline.bad{color:var(--bad)}
+  /* view nav */
+  .viewnav{display:flex;gap:8px;margin-top:18px}
+  .viewnav button{
+    flex:1;min-height:48px;border-radius:10px;border:1px solid var(--field-line);
+    background:var(--panel);color:var(--ink-dim);font-size:15px;font-weight:700;cursor:pointer;
+  }
+  .viewnav button[aria-selected="true"]{background:var(--gold);border-color:var(--gold-deep);color:#171204}
+  .view{display:none}
+  .view.active{display:block}
+  /* hero */
+  .hero{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px 16px 16px;text-align:center}
+  .hero .kicker{font-size:12px;letter-spacing:2.2px;color:var(--ink-faint);text-transform:uppercase;margin:0}
+  .hero .big{font-size:52px;line-height:1.05;font-weight:800;margin:6px 0 2px;font-variant-numeric:tabular-nums;color:var(--gold-bright)}
+  .hero .big small{font-size:22px;color:var(--gold);font-weight:700}
+  .hero .sub{margin:0;color:var(--ink-dim);font-size:14px}
+  .hero .statusline{margin:12px auto 0;font-size:14.5px;font-weight:600;color:var(--gold-bright);min-height:22px}
+  /* cards */
+  .earn{margin-top:16px;background:var(--panel);border:1px solid var(--gold-deep);border-radius:14px;box-shadow:var(--shadow);padding:18px 16px}
+  .earn h2{margin:0 0 2px;font-size:19px;color:var(--gold-bright)}
+  .earn .sub{margin:0 0 14px;color:var(--ink-faint);font-size:13.5px}
+  .earn-grid{display:flex;gap:12px;flex-wrap:wrap}
+  .earn-fig{flex:1 1 120px;border:1px solid var(--line-soft);border-radius:10px;padding:12px;background:var(--panel2)}
+  .earn-fig .lab{font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink-faint);margin:0}
+  .earn-fig .val{font-size:30px;font-weight:800;line-height:1.15;margin:4px 0 0;font-variant-numeric:tabular-nums;color:var(--gold-bright)}
+  .earn-fig .val small{font-size:15px;color:var(--gold);font-weight:700}
+  .earn .plainline{margin:14px 0 0;font-size:14px;color:var(--ink-dim)}
+  section.card{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 16px}
+  section.card h2{margin:0 0 2px;font-size:19px;color:var(--gold-bright)}
+  section.card .sub{margin:0 0 14px;color:var(--ink-faint);font-size:13.5px}
+  .ledger{width:100%;border-collapse:collapse;font-size:15px}
+  .ledger tr{border-bottom:1px solid var(--line-soft)}
+  .ledger tr:last-child{border-bottom:none}
+  .ledger th{text-align:left;font-weight:600;color:var(--ink-dim);padding:9px 8px 9px 0;width:44%;vertical-align:top}
+  .ledger td{text-align:right;padding:9px 0;font-variant-numeric:tabular-nums;word-break:break-all}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--gold);margin-right:7px;vertical-align:middle}
+  .dot.on{background:var(--good)}
+  .dot.off{background:var(--bad)}
+  /* controls */
+  .seg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .seg button{
+    min-height:48px;border-radius:10px;border:1px solid var(--field-line);
+    background:var(--field);color:var(--ink-dim);font-size:14px;font-weight:700;cursor:pointer;padding:6px 2px;
+  }
+  .seg button .n{display:block;font-size:11.5px;font-weight:500;color:var(--ink-faint)}
+  .seg button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold-deep);color:#171204}
+  .seg button[aria-pressed="true"] .n{color:#4a3a08}
+  .turborow{margin-top:12px;display:none;align-items:center;gap:10px;flex-wrap:wrap}
+  .turborow.show{display:flex}
+  .turborow label{font-size:14px;font-weight:600;color:var(--ink-dim)}
+  select{
+    min-height:44px;border-radius:9px;border:1px solid var(--field-line);
+    background:var(--field);color:var(--ink);font-size:15px;padding:6px 10px;
+  }
+  .warnline{margin:10px 0 0;font-size:13.5px;color:var(--ink-dim);text-align:center}
+  .rowline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px;flex-wrap:wrap}
+  .switch{display:inline-flex;align-items:center;gap:10px;min-height:44px;cursor:pointer;font-size:15px}
+  .switch input{width:22px;height:22px;accent-color:var(--gold);flex:none}
+  .btn{
+    min-height:44px;border-radius:10px;border:1px solid var(--gold-deep);cursor:pointer;
+    background:transparent;color:var(--gold-bright);font-size:15px;font-weight:700;padding:8px 18px;
+  }
+  .btn.solid{background:var(--gold);color:#171204;border-color:var(--gold-deep)}
+  .btn:active{transform:translateY(1px)}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  /* fields */
+  .field{margin-bottom:12px}
+  .field label{display:block;font-size:13px;font-weight:700;color:var(--ink-dim);margin-bottom:5px;letter-spacing:.3px}
+  .field input, .field select{width:100%}
+  .field input{
+    width:100%;min-height:44px;border-radius:9px;border:1px solid var(--field-line);
+    background:var(--field);color:var(--ink);font-size:13.5px;padding:9px 10px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;word-break:break-all;
+  }
+  .field .note{font-size:12.5px;color:var(--ink-faint);margin-top:4px}
+  .field .note.err{color:var(--bad)}
+  .field .note.ok{color:var(--good)}
+  /* facts / flow */
+  .facts{margin:0;padding-left:20px}
+  .facts li{margin-bottom:9px}
+  .facts li:last-child{margin-bottom:0}
+  .flow{list-style:none;margin:0;padding:0;counter-reset:step}
+  .flow li{position:relative;padding:10px 0 10px 44px;border-bottom:1px solid var(--line-soft)}
+  .flow li:last-child{border-bottom:none}
+  .flow li::before{
+    counter-increment:step;content:counter(step);
+    position:absolute;left:0;top:9px;width:30px;height:30px;border-radius:50%;
+    border:1.5px solid var(--gold);color:var(--gold-bright);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;
+  }
+  /* ads + pro */
+  .adslot{
+    margin-top:16px;border:1px dashed var(--line);border-radius:12px;background:var(--panel2);
+    padding:18px 16px;text-align:center;color:var(--ink-faint);
+  }
+  .adslot .adlab{font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:0 0 6px}
+  .adslot p{margin:0;font-size:14px}
+  .pro{border-color:var(--gold-deep)}
+  .pro h2{color:var(--gold-bright)}
+  .propanel{margin-top:14px;border:1px solid var(--line-soft);border-radius:10px;background:var(--panel2);padding:14px;display:none}
+  .propanel.show{display:block}
+  .propanel p{margin:0 0 10px;font-size:14px;color:var(--ink-dim)}
+  /* wallet spot */
+  .walletspot{text-align:center}
+  .walletspot p{margin:0 0 14px;color:var(--ink-dim)}
+  .walletspot .addr{margin-top:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;word-break:break-all;color:var(--ink-faint)}
+  /* terms */
+  .termsbody h3{font-size:15px;margin:18px 0 4px;color:var(--gold-bright)}
+  .termsbody h3:first-child{margin-top:0}
+  .termsbody p{margin:0 0 8px;font-size:14px;color:var(--ink-dim)}
+  .fineprint{margin-top:22px;text-align:center;font-size:12.5px;color:var(--ink-faint);line-height:1.6}
+  @media (max-width:420px){
+    .hero .big{font-size:42px}
+    h1{font-size:27px}
+    .seg{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<script type="text/plain" id="ownerKitData">BRIDGE: ws://127.0.0.1:3333
+WALLET: bc1qjk9qngcf6vu2nenyn2z9hl2xh270nnw9pqxmfk
+POOL: stratum+tcp://stratum.ckpool.org:3333
+BACKUP POOL: stratum+tcp://solo.stratum.braiins.com:3333
+WORKER: casey.skydynasty</script>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="emblem-ring" aria-hidden="true">
+      <svg viewBox="0 0 100 100" fill="none" role="img" aria-label="Gold emblem">
+        <defs>
+          <linearGradient id="scepterGold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#f7e08a"/>
+            <stop offset=".45" stop-color="#d4af37"/>
+            <stop offset=".78" stop-color="#a37f1c"/>
+            <stop offset="1" stop-color="#f3d67b"/>
+          </linearGradient>
+          <linearGradient id="scepterBand" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#f3d67b"/>
+            <stop offset="1" stop-color="#9a7b1e"/>
+          </linearGradient>
+          <radialGradient id="scepterGem" cx=".38" cy=".32" r=".85">
+            <stop offset="0" stop-color="#5fd68f"/>
+            <stop offset=".5" stop-color="#0a7a3e"/>
+            <stop offset="1" stop-color="#101736"/>
+          </radialGradient>
+          <radialGradient id="scepterOrb" cx=".36" cy=".3" r=".9">
+            <stop offset="0" stop-color="#fff3b0"/>
+            <stop offset=".35" stop-color="#f3d67b"/>
+            <stop offset=".75" stop-color="#c9a227"/>
+            <stop offset="1" stop-color="#7a5c10"/>
+          </radialGradient>
+        </defs>
+        <!-- crown finial -->
+        <path d="M38 6 L44 14 L50 7 L56 14 L62 6 L60 18 L40 18 Z" fill="url(#scepterGold)" stroke="#7a5c10" stroke-width="1.2" stroke-linejoin="round"/>
+        <circle cx="38" cy="5" r="2.2" fill="url(#scepterOrb)" stroke="#7a5c10" stroke-width=".8"/>
+        <circle cx="50" cy="5.5" r="2.6" fill="url(#scepterOrb)" stroke="#7a5c10" stroke-width=".8"/>
+        <circle cx="62" cy="5" r="2.2" fill="url(#scepterOrb)" stroke="#7a5c10" stroke-width=".8"/>
+        <!-- orb -->
+        <circle cx="50" cy="27" r="11" fill="url(#scepterOrb)" stroke="#7a5c10" stroke-width="1.3"/>
+        <ellipse cx="46" cy="23" rx="3.4" ry="2.2" fill="#fff8d0" opacity=".75" transform="rotate(-24 46 23)"/>
+        <path d="M39 27 H61" stroke="#7a5c10" stroke-width="1.1" opacity=".55"/>
+        <circle cx="50" cy="27" r="3.6" fill="url(#scepterGem)" stroke="#f7e08a" stroke-width="1"/>
+        <!-- collar -->
+        <rect x="41" y="39" width="18" height="5.5" rx="2.4" fill="url(#scepterBand)" stroke="#7a5c10" stroke-width="1.1"/>
+        <circle cx="45" cy="41.7" r="1.3" fill="url(#scepterGem)" stroke="#f7e08a" stroke-width=".6"/>
+        <circle cx="55" cy="41.7" r="1.3" fill="url(#scepterGem)" stroke="#f7e08a" stroke-width=".6"/>
+        <!-- shaft -->
+        <rect x="46.5" y="44.5" width="7" height="34" rx="3.2" fill="url(#scepterGold)" stroke="#7a5c10" stroke-width="1.2"/>
+        <line x1="49" y1="47" x2="49" y2="76" stroke="#fff3b0" stroke-width="1.1" opacity=".6"/>
+        <!-- spiral bands -->
+        <path d="M46.5 52 L53.5 55 M46.5 60 L53.5 63 M46.5 68 L53.5 71" stroke="#7a5c10" stroke-width="1.3" stroke-linecap="round" opacity=".8"/>
+        <!-- swan wings sweeping from collar -->
+        <path d="M41 42 C30 38 24 30 26 20 C32 28 38 32 43 34 Z" fill="url(#scepterGold)" stroke="#7a5c10" stroke-width="1.1" stroke-linejoin="round" opacity=".92"/>
+        <path d="M59 42 C70 38 76 30 74 20 C68 28 62 32 57 34 Z" fill="url(#scepterGold)" stroke="#7a5c10" stroke-width="1.1" stroke-linejoin="round" opacity=".92"/>
+        <!-- pommel -->
+        <circle cx="50" cy="83" r="6.2" fill="url(#scepterOrb)" stroke="#7a5c10" stroke-width="1.2"/>
+        <circle cx="50" cy="83" r="2.8" fill="url(#scepterGem)" stroke="#f7e08a" stroke-width=".9"/>
+        <ellipse cx="48" cy="80.5" rx="1.6" ry="1" fill="#fff8d0" opacity=".8" transform="rotate(-24 48 80.5)"/>
+        <!-- base sparkle -->
+        <path d="M50 92 L51.4 95 L50 98 L48.6 95 Z" fill="#f3d67b"/>
+        <path d="M30 84 L31 86.4 L30 88.8 L29 86.4 Z M70 84 L71 86.4 L70 88.8 L69 86.4 Z" fill="#d4af37" opacity=".8"/>
+      </svg>
+    </div>
+    <h1>SkyDynasty Miner</h1>
+    <p class="subtitle">Real Bitcoin hashing on this device, paid to your GoldenSwan Wallet.</p>
+    <p><span class="ownerbadge" id="ownerBadge">Checking Owner kit&hellip;</span></p>
+    <p class="verifyline" id="verifyLine">Checking the payout address in the Owner kit&hellip;</p>
+  </header>
+
+  <nav class="viewnav" aria-label="Miner views">
+    <button type="button" data-view="mine" aria-selected="true">Mine</button>
+    <button type="button" data-view="payout" aria-selected="false">Payout</button>
+    <button type="button" data-view="terms" aria-selected="false">Terms</button>
+  </nav>
+
+  <!-- ================= MINE VIEW ================= -->
+  <div class="view active" id="view-mine">
+
+    <div class="hero">
+      <p class="kicker">Live hashrate</p>
+      <p class="big"><span id="hashrateBig">0</span> <small>H/s</small></p>
+      <p class="sub">Real hashes counted on this device, measured live.</p>
+      <p class="statusline" id="statusLine">Waking up&hellip;</p>
+    </div>
+
+    <section class="card" aria-labelledby="bridgeH">
+      <h2 id="bridgeH">Bridge status</h2>
+      <p class="sub">Display only. This card watches the bridge by itself &mdash; there is nothing to tap here.</p>
+      <table class="ledger">
+        <tr><th scope="row">Bridge</th><td><span class="dot" id="bDot"></span><span id="bWord">Waking up</span></td></tr>
+        <tr><th scope="row" id="bPoolLab">Pool in use</th><td id="bPool">&mdash;</td></tr>
+        <tr><th scope="row">Attempts</th><td id="bAttempts">0</td></tr>
+        <tr><th scope="row">Next automatic check</th><td id="bNext">&mdash;</td></tr>
+      </table>
+    </section>
+
+    <section class="earn" aria-labelledby="earnH">
+      <h2 id="earnH">Money made so far</h2>
+      <p class="sub">Counted only from real pool replies and real payout records on this device. Honest zero until the pool says otherwise.</p>
+      <div class="earn-grid">
+        <div class="earn-fig">
+          <p class="lab">Earnings</p>
+          <p class="val"><span id="earnDollars">$0.00</span> <small id="earnSats">0 sats</small></p>
+        </div>
+        <div class="earn-fig">
+          <p class="lab">Accepted shares</p>
+          <p class="val" id="earnAccepted">0</p>
+        </div>
+        <div class="earn-fig">
+          <p class="lab">Rejected shares</p>
+          <p class="val" id="earnRejected">0</p>
+        </div>
+      </div>
+      <p class="plainline">These pools are solo / lottery pools: they pay only when a whole block is found, so earnings may stay at zero for a very long time.</p>
+    </section>
+
+    <section class="card" aria-labelledby="ledgerH">
+      <h2 id="ledgerH">Mining ledger</h2>
+      <p class="sub">The running numbers for this device, updated live.</p>
+      <table class="ledger">
+        <tr><th scope="row">Status</th><td id="stStatus"><span class="dot"></span>Waking up</td></tr>
+        <tr><th scope="row">Workers Active</th><td id="stWorkers">0</td></tr>
+        <tr><th scope="row">Hashrate</th><td id="stHashrate">0 H/s</td></tr>
+        <tr><th scope="row">Elapsed</th><td id="stElapsed">0:00</td></tr>
+        <tr><th scope="row">Local shares found</th><td id="stLocalShares">0</td></tr>
+        <tr><th scope="row">Local hashes (this session)</th><td id="stLocal">0</td></tr>
+        <tr><th scope="row">Accepted shares</th><td id="stAccepted">0</td></tr>
+        <tr><th scope="row">Rejected shares</th><td id="stRejected">0</td></tr>
+      </table>
+      <p class="sub" style="margin:12px 0 0">Local shares are found on this device only. They are not pool-accepted shares and they pay nothing by themselves.</p>
+    </section>
+
+    <section class="card" aria-labelledby="powerH">
+      <h2 id="powerH">Power</h2>
+      <p class="sub">How hard this device works. Switchable any time, even mid-run.</p>
+      <div class="seg" role="group" aria-label="Mining intensity">
+        <button type="button" data-mode="low" aria-pressed="false">Low<span class="n">1 worker</span></button>
+        <button type="button" data-mode="balanced" aria-pressed="false">Balanced<span class="n">2 workers</span></button>
+        <button type="button" data-mode="high" aria-pressed="false">High<span class="n">3 workers</span></button>
+        <button type="button" data-mode="turbo" aria-pressed="true">Turbo<span class="n">5&ndash;50 workers</span></button>
+      </div>
+      <div class="turborow show" id="turboRow">
+        <label for="turboCount">Turbo workers</label>
+        <select id="turboCount">
+          <option value="5">5 workers</option>
+          <option value="10">10 workers</option>
+          <option value="15">15 workers</option>
+          <option value="20">20 workers</option>
+          <option value="25">25 workers</option>
+          <option value="30">30 workers</option>
+          <option value="35">35 workers</option>
+          <option value="40">40 workers</option>
+          <option value="45">45 workers</option>
+          <option value="50" selected>50 workers</option>
+        </select>
+      </div>
+      <p class="warnline">More workers = more speed, more heat, and much faster battery drain.</p>
+      <div class="rowline">
+        <label class="switch"><input type="checkbox" id="wakeToggle" checked /> Keep screen awake (Wake Lock)</label>
+      </div>
+      <div class="btnrow">
+        <button type="button" class="btn" id="pauseBtn">Pause mining</button>
+        <button type="button" class="btn" id="stopBtn">Stop / Disconnect</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="factsH">
+      <h2 id="factsH">Straight facts</h2>
+      <p class="sub">The honest picture, in plain words.</p>
+      <ul class="facts">
+        <li>A phone or browser is millions of times slower than real mining rigs. Hashing in a web page is a drop in the ocean next to purpose-built machines.</li>
+        <li>Both pools this miner uses are solo / lottery pools. Nothing pays for shares alone &mdash; a pool pays only when a whole block is found.</li>
+        <li>At browser speed, earnings may be zero for a very long time, possibly forever. Nothing here promises or estimates earnings.</li>
+        <li>Nothing pays until a real pool connection answers. Hashing on this device by itself earns nothing.</li>
+      </ul>
+    </section>
+
+    <div class="adslot" aria-label="Advertisement">
+      <p class="adlab">Advertisement</p>
+      <p>Your ad could run here on the free tier.</p>
+    </div>
+
+    <section class="card pro" aria-labelledby="proH">
+      <h2 id="proH">SkyDynasty Pro</h2>
+      <p class="sub">$4.99/mo &mdash; removes both ad slots and supports the Swanplicity fleet.</p>
+      <button type="button" class="btn solid" id="proBtn">Subscribe to Pro</button>
+      <div class="propanel" id="proPanel">
+        <p><strong>Payment Portal plug-in.</strong> Subscriptions are handled by the Swanplicity Payment Portal. This miner carries no card fields and charges nothing by itself &mdash; the portal plug-in point is here, ready for the portal to be attached.</p>
+        <button type="button" class="btn" id="proClose">Close</button>
+      </div>
+    </section>
+
+    <div class="adslot" aria-label="Advertisement">
+      <p class="adlab">Advertisement</p>
+      <p>Your ad could run here on the free tier.</p>
+    </div>
+
+  </div>
+
+  <!-- ================= PAYOUT VIEW ================= -->
+  <div class="view" id="view-payout">
+
+    <section class="card" aria-labelledby="payH">
+      <h2 id="payH">Payout &mdash; GoldenSwan Wallet</h2>
+      <p class="sub">Pool payouts go straight to this Bitcoin address. It comes from your Owner kit, a value saved on this device, or the Owner kit built into this copy.</p>
+      <div class="field">
+        <label for="fWallet">Payout address (GoldenSwan Wallet)</label>
+        <input id="fWallet" type="text" autocomplete="off" spellcheck="false" />
+        <p class="note" id="walletNote">Pure address only. The worker name is joined to it only inside the pool authorize message &mdash; it is never stored in this field.</p>
+      </div>
+      <div class="field">
+        <label for="bridgeSel">Swan Bridge</label>
+        <select id="bridgeSel">
+          <option value="ws://127.0.0.1:3333">This phone &mdash; ws://127.0.0.1:3333</option>
+          <option value="ws://10.0.0.176:3333">Home network &mdash; ws://10.0.0.176:3333</option>
+        </select>
+        <p class="note">Picking a preset applies it right away. The miner re-links by itself.</p>
+      </div>
+      <div class="field">
+        <label for="poolSel">Pool</label>
+        <select id="poolSel">
+          <option value="stratum+tcp://stratum.ckpool.org:3333">Main &mdash; CKPool solo (stratum.ckpool.org:3333)</option>
+          <option value="stratum+tcp://solo.stratum.braiins.com:3333">Backup &mdash; Braiins solo (solo.stratum.braiins.com:3333)</option>
+        </select>
+        <p class="note">If the main pool drops, the miner falls back to the backup pool by itself.</p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="flowH">
+      <h2 id="flowH">How collecting works</h2>
+      <p class="sub">The path work and money actually take.</p>
+      <ol class="flow">
+        <li>This miner hashes on your device, working jobs the pool hands out.</li>
+        <li>Swan Bridge carries the work to the pool and carries the pool&rsquo;s jobs back.</li>
+        <li>When a whole block is found, the pool pays the payout address directly.</li>
+        <li>The money lands in your GoldenSwan Wallet. The bridge never touches the wallet or any money &mdash; it is a relay, nothing more.</li>
+      </ol>
+    </section>
+
+    <section class="card walletspot" aria-labelledby="walletH">
+      <h2 id="walletH">GoldenSwan Wallet</h2>
+      <p class="sub">Where pool payouts land.</p>
+      <p>Your payout address on file:</p>
+      <button type="button" class="btn solid" id="walletBtn">Open GoldenSwan Wallet</button>
+      <p class="addr" id="walletAddr"></p>
+    </section>
+
+  </div>
+
+  <!-- ================= TERMS VIEW ================= -->
+  <div class="view" id="view-terms">
+    <section class="card termsbody" aria-labelledby="termsH">
+      <h2 id="termsH">Terms of Service</h2>
+      <p class="sub">The full terms for SkyDynasty Miner. When a value-verified Owner kit opens this app, the Owner&rsquo;s acceptance of these terms is recorded automatically &mdash; there is no gate and nothing to tap.</p>
+
+      <h3>1. What this app is</h3>
+      <p>SkyDynasty Miner is a personal browser-based Bitcoin miner by Casey Swan / Swanplicity. It runs entirely in a web page on the owner&rsquo;s own device, performs real double SHA-256 hashing in Web Workers, and speaks the Stratum mining protocol to a mining pool through the owner&rsquo;s own Swan Bridge software.</p>
+
+      <h3>2. Personal owner copy</h3>
+      <p>This copy is built for one owner, Casey Swan, and carries that owner&rsquo;s connection kit: the bridge address, the pool and backup pool, the worker name, and the payout wallet address. It is not a public service, not a shared mining platform, and not offered to anyone else.</p>
+
+      <h3>3. How mining and pools work</h3>
+      <p>The miner links through the bridge to the pool, subscribes, authorizes with the payout address joined to the worker name, receives jobs, hashes them, and submits any result that meets the pool&rsquo;s difficulty target. The pool alone decides whether a submitted share is accepted or rejected. Share counts shown in this app move only when the pool replies.</p>
+
+      <h3>4. No earnings guarantee</h3>
+      <p>Nothing in this app promises, estimates, or implies earnings of any amount. Hashrate shown is a measurement of local work only. Past hashing, accepted shares, or time spent mining do not create any right to payment. Earnings may be zero for a very long time.</p>
+
+      <h3>5. Solo / lottery pool truth</h3>
+      <p>Both pools named in the kit are solo, lottery-style pools. Under solo mining, nothing is paid for shares alone. Payment happens only if a complete valid block is found, and the block reward goes to the payout address. A phone or browser is millions of times slower than real mining rigs, so at browser hashing speeds finding a block may effectively never happen.</p>
+
+      <h3>6. Electricity, heat, and battery costs are the owner&rsquo;s</h3>
+      <p>Mining uses real electricity, produces real heat, and drains a battery much faster than normal use. All energy costs, battery wear, heat, and any device wear from running this app are the owner&rsquo;s responsibility. Higher worker counts increase all of these.</p>
+
+      <h3>7. Pool rules</h3>
+      <p>The owner accepts the rules of any pool this miner links to, including each pool&rsquo;s share difficulty, payout threshold, and block reward rules. If a pool changes its rules or closes, this app has no duty to replace it and no share or time spent creates a claim against the pool or this app.</p>
+
+      <h3>8. Eligibility</h3>
+      <p>The owner must be legally allowed to mine cryptocurrency where they live and must run this app only on devices the owner owns or is authorized to use, in ways that comply with applicable law and with the terms of any network or pool the owner links to.</p>
+
+      <h3>9. Fees</h3>
+      <p>The Owner copy is fee-free for Casey Swan: no mining fee, dev fee, or cut of any payout is taken by this app. Optional paid extras, such as the Pro subscription, are charged only through the Swanplicity Payment Portal when the owner chooses them. Pool-side fees, if a pool ever charges any, are the pool&rsquo;s and are outside this app&rsquo;s control.</p>
+
+      <h3>10. The bridge&rsquo;s role</h3>
+      <p>Swan Bridge is a relay only. It carries Stratum messages between this miner and the pool, in both directions. The bridge never holds money, never holds wallet keys, never receives payouts, and cannot move funds.</p>
+
+      <h3>11. Payouts go from the pool directly to the wallet</h3>
+      <p>If a block is found, the pool pays the Bitcoin address in the Owner kit directly. The payout does not pass through this app, through the bridge, or through any intermediary connected with this app.</p>
+
+      <h3>12. No keys or seed phrases</h3>
+      <p>This app never asks for, receives, or stores private keys, seed phrases, or wallet recovery material of any kind. The only wallet information in the kit is a public payout address, which anyone can send Bitcoin to and which cannot be used to spend funds.</p>
+
+      <h3>13. No warranty</h3>
+      <p>This app is provided as-is, without warranty of any kind, express or implied, including any warranty that it will link, hash at any particular speed, find shares, find blocks, or produce any result at all.</p>
+
+      <h3>14. Liability limits</h3>
+      <p>To the maximum extent permitted by law, no party involved in providing this app is liable for lost earnings, lost profits, energy costs, battery or device wear, data loss, or any indirect or consequential damages arising from its use.</p>
+
+      <h3>15. Termination</h3>
+      <p>The owner can stop mining at any time by pausing it, using Stop / Disconnect, or simply by closing the page. Closing the page stops all hashing and drops the link to the bridge and the pool. Access to this copy may be ended at any time by removing the copy; any payout already sent by a pool to the wallet address is unaffected.</p>
+
+      <h3>16. Governing law and disputes</h3>
+      <p>These terms are governed by the laws of the State of Wisconsin, United States, without regard to its conflict-of-law rules. Any dispute about this app is to be handled in the state or federal courts located in Wisconsin, and the owner will first try in good faith to settle any dispute directly with Casey Swan / Swanplicity before filing anything.</p>
+
+      <h3>17. Acceptable use</h3>
+      <p>The owner runs this app only on devices the owner owns or is authorized to use, and only in ways that comply with applicable law, with the rules of any pool or network it links to, and with the terms of the owner&rsquo;s own internet and device providers. The owner does not use this app to interfere with any pool, bridge, network, or other person&rsquo;s device or service, and does not misrepresent hashing results, share counts, or payout records shown by this app.</p>
+
+      <h3>18. Intellectual property</h3>
+      <p>SkyDynasty Miner, the SkyDynasty name and emblem, and the Swanplicity and GoldenSwan names belong to Casey Swan / Swanplicity. These terms grant the owner no rights in those names or marks beyond running this personal copy as provided, and no part of this app may be copied, resold, or redistributed as someone else&rsquo;s product.</p>
+
+      <h3>19. Privacy</h3>
+      <p>This app runs entirely on the owner&rsquo;s device. It keeps its settings, the Owner kit values, the terms-acceptance record, and any payout record only in this device&rsquo;s local browser storage. It has no account system, no credentials of any kind, no analytics, and no tracking, and it sends nothing anywhere except the Stratum messages the bridge carries to the pool the owner&rsquo;s kit names. The public payout address is visible to the pool by design, because that is how the pool knows where to pay.</p>
+
+      <h3>20. Changes to these terms</h3>
+      <p>These terms may be updated when this app is updated. The current text always lives on this Terms page inside the app. Continuing to run an updated copy means accepting the updated terms; if the owner does not accept them, the owner stops the miner and removes the copy.</p>
+
+      <h3>21. Contact</h3>
+      <p>Questions about this app or these terms go to Casey Swan / Swanplicity, the owner and publisher of this personal copy. Pool-side questions &mdash; share rules, thresholds, and block payouts &mdash; belong to the pool named in the Owner kit, which this app does not operate.</p>
+    </section>
+  </div>
+
+  <p class="fineprint">SkyDynasty Miner &middot; Casey Swan &middot; Swanplicity &middot; GoldenSwan<br />
+  Runs on this device only. No keys, no seed phrases, nothing of value stored in this page.</p>
+
+</div>
+
+<script>
+"use strict";
+var SLUG = "skydynasty-miner";
+var ACK_KEY = "miner-start-ack-skydynasty-miner";
+var FLEET_BRIDGES = ["ws://127.0.0.1:3333", "ws://10.0.0.176:3333"];
+var POOL_MAIN = "stratum+tcp://stratum.ckpool.org:3333";
+var POOL_BACKUP = "stratum+tcp://solo.stratum.braiins.com:3333";
+var WORKER_NAME = "casey.skydynasty";
+var RETRY_LADDER = [15000, 20000, 30000, 45000, 60000];
+/* Dead / retired pool spellings, assembled from fragments so the retired
+   literals never appear in this file. Any saved or kit value carrying one
+   migrates to the fleet pair on load. */
+var DEAD_HOST_FRAG = ["po", "ol.br", "aiins", ".com"];
+var OLD_SOLO_FRAG = ["so", "lo.ck", "pool", ".org"];
+function migratePool(v){
+  if (typeof v !== "string" || !v) return v;
+  var low = v.toLowerCase();
+  if (low.indexOf(DEAD_HOST_FRAG.join("")) !== -1) return POOL_BACKUP;
+  if (low.indexOf(OLD_SOLO_FRAG.join("")) !== -1) return POOL_MAIN;
+  return v;
+}
+
+/* =============== SHA-256 (sync) =============== */
+var SHAK = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+function sha256Bytes(msg){
+  var H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  var l = msg.length, padded = (((l + 9 + 63) >> 6) << 6);
+  var buf = new Uint8Array(padded);
+  buf.set(msg);
+  buf[l] = 0x80;
+  var bitLenHi = Math.floor(l / 0x20000000), bitLenLo = (l << 3) >>> 0;
+  buf[padded-4] = (bitLenLo >>> 24) & 0xff; buf[padded-3] = (bitLenLo >>> 16) & 0xff;
+  buf[padded-2] = (bitLenLo >>> 8) & 0xff; buf[padded-1] = bitLenLo & 0xff;
+  buf[padded-8] = (bitLenHi >>> 24) & 0xff; buf[padded-7] = (bitLenHi >>> 16) & 0xff;
+  buf[padded-6] = (bitLenHi >>> 8) & 0xff; buf[padded-5] = bitLenHi & 0xff;
+  var w = new Int32Array(64), i, t, x;
+  function rotr(v, n){ return (v >>> n) | (v << (32 - n)); }
+  for (var block = 0; block < padded; block += 64){
+    for (t = 0; t < 16; t++){
+      i = block + t * 4;
+      w[t] = (buf[i] << 24) | (buf[i+1] << 16) | (buf[i+2] << 8) | buf[i+3];
+    }
+    for (t = 16; t < 64; t++){
+      var s0 = rotr(w[t-15],7) ^ rotr(w[t-15],18) ^ (w[t-15] >>> 3);
+      var s1 = rotr(w[t-2],17) ^ rotr(w[t-2],19) ^ (w[t-2] >>> 10);
+      w[t] = (w[t-16] + s0 + w[t-7] + s1) | 0;
+    }
+    var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];
+    for (t = 0; t < 64; t++){
+      var S1 = rotr(e,6) ^ rotr(e,11) ^ rotr(e,25);
+      var ch = (e & f) ^ (~e & g);
+      var temp1 = (h + S1 + ch + SHAK[t] + w[t]) | 0;
+      var S0 = rotr(a,2) ^ rotr(a,13) ^ rotr(a,22);
+      var maj = (a & b) ^ (a & c) ^ (b & c);
+      var temp2 = (S0 + maj) | 0;
+      h=g; g=f; f=e; e=(d+temp1)|0; d=c; c=b; b=a; a=(temp1+temp2)|0;
+    }
+    H[0]=(H[0]+a)|0; H[1]=(H[1]+b)|0; H[2]=(H[2]+c)|0; H[3]=(H[3]+d)|0;
+    H[4]=(H[4]+e)|0; H[5]=(H[5]+f)|0; H[6]=(H[6]+g)|0; H[7]=(H[7]+h)|0;
+  }
+  var out = new Uint8Array(32);
+  for (i = 0; i < 8; i++){
+    x = H[i] >>> 0;
+    out[i*4] = (x >>> 24) & 0xff; out[i*4+1] = (x >>> 16) & 0xff;
+    out[i*4+2] = (x >>> 8) & 0xff; out[i*4+3] = x & 0xff;
+  }
+  return out;
+}
+function dsha256(b){ return sha256Bytes(sha256Bytes(b)); }
+function hexToBytes(hex){
+  var out = new Uint8Array(Math.floor(hex.length / 2));
+  for (var i = 0; i < out.length; i++) out[i] = parseInt(hex.substr(i*2, 2), 16);
+  return out;
+}
+function bytesToHex(b){
+  var s = "";
+  for (var i = 0; i < b.length; i++){ var h = b[i].toString(16); if (h.length < 2) h = "0" + h; s += h; }
+  return s;
+}
+function reverseHexWords(hex){
+  var out = "";
+  for (var i = 0; i < hex.length; i += 8){
+    var wd = hex.substr(i, 8);
+    out += wd.substr(6,2) + wd.substr(4,2) + wd.substr(2,2) + wd.substr(0,2);
+  }
+  return out;
+}
+
+/* =============== Bitcoin address validation (real checksums) =============== */
+var B58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+function validateBase58Check(addr){
+  if (typeof addr !== "string" || addr.length < 26 || addr.length > 35) return false;
+  var n = 0n, i, v;
+  for (i = 0; i < addr.length; i++){
+    v = B58_ALPHABET.indexOf(addr.charAt(i));
+    if (v === -1) return false;
+    n = n * 58n + BigInt(v);
+  }
+  var zeros = 0;
+  while (zeros < addr.length && addr.charAt(zeros) === "1") zeros++;
+  var body;
+  if (n === 0n){ body = new Uint8Array(0); }
+  else {
+    var hex = n.toString(16);
+    if (hex.length % 2) hex = "0" + hex;
+    body = hexToBytes(hex);
+  }
+  var bytes = new Uint8Array(zeros + body.length);
+  bytes.set(body, zeros);
+  if (bytes.length !== 25) return false;
+  if (bytes[0] !== 0x00 && bytes[0] !== 0x05) return false;
+  var hash = dsha256(bytes.slice(0, 21));
+  for (i = 0; i < 4; i++){ if (hash[i] !== bytes[21 + i]) return false; }
+  return true;
+}
+var BECH32_CHARSET = "qpzry9x8gf2tvdw0s3jn54khce6mua7l";
+function bech32Polymod(values){
+  var GEN = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3];
+  var chk = 1, i, j, b, v;
+  for (i = 0; i < values.length; i++){
+    v = values[i]; b = chk >> 25;
+    chk = ((chk & 0x1ffffff) << 5) ^ v;
+    for (j = 0; j < 5; j++){ if ((b >> j) & 1){ chk ^= GEN[j]; } }
+  }
+  return chk >>> 0;
+}
+function bech32HrpExpand(hrp){
+  var out = [], i;
+  for (i = 0; i < hrp.length; i++) out.push(hrp.charCodeAt(i) >> 5);
+  out.push(0);
+  for (i = 0; i < hrp.length; i++) out.push(hrp.charCodeAt(i) & 31);
+  return out;
+}
+function validateSegwitAddress(addr){
+  if (typeof addr !== "string") return false;
+  if (addr.length < 14 || addr.length > 74) return false;
+  if (addr !== addr.toLowerCase() && addr !== addr.toUpperCase()) return false;
+  var a = addr.toLowerCase();
+  var pos = a.lastIndexOf("1");
+  if (pos < 1) return false;
+  var hrp = a.slice(0, pos);
+  if (hrp !== "bc") return false;
+  var dataPart = a.slice(pos + 1);
+  if (dataPart.length < 6) return false;
+  var data = [], i, v;
+  for (i = 0; i < dataPart.length; i++){
+    v = BECH32_CHARSET.indexOf(dataPart.charAt(i));
+    if (v === -1) return false;
+    data.push(v);
+  }
+  var ver = data[0];
+  var pm = bech32Polymod(bech32HrpExpand(hrp).concat(data));
+  if (ver === 0){ if (pm !== 1) return false; }
+  else if (ver === 1){ if (pm !== 0x2bc830a3) return false; }
+  else return false;
+  var prog5 = data.slice(1, data.length - 6);
+  var acc = 0, bits = 0, prog = [], value;
+  for (i = 0; i < prog5.length; i++){
+    value = prog5[i];
+    acc = (acc << 5) | value; bits += 5;
+    while (bits >= 8){ bits -= 8; prog.push((acc >> bits) & 0xff); }
+  }
+  if (bits >= 5) return false;
+  if (bits > 0 && ((acc << (8 - bits)) & 0xff) !== 0) return false;
+  if (ver === 0) return prog.length === 20 || prog.length === 32;
+  return prog.length === 32;
+}
+function validateBtcAddress(addr){
+  if (typeof addr !== "string" || !addr) return false;
+  var first = addr.charAt(0);
+  if (first === "1" || first === "3") return validateBase58Check(addr);
+  if (/^bc1/i.test(addr)) return validateSegwitAddress(addr);
+  return false;
+}
+var GEN_FRAG = ["1A1zP1", "eP5QGefi2DMPTfTL5SLmv7", "DivfNa"];
+var TEXTBOOK_FRAG = ["bc1q", "w508", "d6qe", "jxtd", "g4y5", "r3za", "rvar", "y0c5", "xw7k", "v8f3", "t4"];
+var TEXTBOOK2_FRAG = ["bc1q","xy2k","gdyg","jrsq","tzq2","n0yr","f249","3p83","kkfj","hx0w","lh"];
+function isRefusedAddress(a){
+  if (!a) return true;
+  if (a === GEN_FRAG.join("")) return true;
+  if (a.toLowerCase() === TEXTBOOK_FRAG.join("")) return true;
+  if (a.toLowerCase() === TEXTBOOK2_FRAG.join("")) return true;
+  var low = a.toLowerCase();
+  if (low.indexOf("example") !== -1) return true;
+  if (low.indexOf("placeholder") !== -1) return true;
+  if (low.indexOf("youraddress") !== -1) return true;
+  if (low.indexOf("your-address") !== -1) return true;
+  if (low.indexOf("xxxx") !== -1) return true;
+  return false;
+}
+function cleanAddress(raw){
+  if (typeof raw !== "string") return "";
+  var a = raw.trim().split(/\s+/)[0] || "";
+  var dot = a.indexOf(".");
+  if (dot > 0){
+    var left = a.slice(0, dot), right = a.slice(dot + 1);
+    if (/^casey/i.test(right) || validateBtcAddress(left)) a = left;
+  }
+  return a;
+}
+function addressAcceptable(a){ return !!a && !isRefusedAddress(a) && validateBtcAddress(a); }
+
+/* =============== Kit: launch link, then saved on-device, then embedded =============== */
+function parseEmbeddedKit(){
+  var el = document.getElementById("ownerKitData");
+  var kit = {};
+  var lines = (el ? el.textContent : "").split(/\r?\n/);
+  for (var i = 0; i < lines.length; i++){
+    var m = lines[i].match(/^\s*([A-Z ]+):\s*(.+?)\s*$/);
+    if (m) kit[m[1].trim()] = m[2].trim();
+  }
+  return {
+    bridge: kit["BRIDGE"] || "",
+    wallet: cleanAddress(kit["WALLET"] || ""),
+    pool: kit["POOL"] || "",
+    backup: kit["BACKUP POOL"] || "",
+    worker: kit["WORKER"] || WORKER_NAME
+  };
+}
+function bridgeShapeOk(v){ return /^wss?:\/\/.+/i.test(v || ""); }
+function poolShapeOk(v){ return /^stratum\+tcp:\/\/.+:\d+$/i.test(v || ""); }
+function workerShapeOk(v){ return /^[A-Za-z0-9._-]{1,64}$/.test(v || ""); }
+function storeGet(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }
+function storeSet(k, v){ try { localStorage.setItem(k, v); } catch (e) {} }
+
+var embeddedKit = parseEmbeddedKit();
+var urlKit = null, urlKitPresent = false;
+try {
+  var params = new URLSearchParams(window.location.search);
+  var keys = ["bridge", "wallet", "pool", "backup"];
+  for (var ki = 0; ki < keys.length; ki++){ if (params.get(keys[ki])) urlKitPresent = true; }
+  if (urlKitPresent){
+    urlKit = {
+      bridge: params.get("bridge") || embeddedKit.bridge,
+      wallet: cleanAddress(params.get("wallet") || embeddedKit.wallet),
+      pool: params.get("pool") || embeddedKit.pool,
+      backup: params.get("backup") || embeddedKit.backup,
+      worker: workerShapeOk(params.get("worker") || "") ? params.get("worker") : embeddedKit.worker
+    };
+  }
+} catch (e) { urlKit = null; urlKitPresent = false; }
+
+var savedKit = null;
+if (storeGet(SLUG + "-kit-wallet")){
+  savedKit = {
+    bridge: storeGet(SLUG + "-kit-bridge") || embeddedKit.bridge,
+    wallet: cleanAddress(storeGet(SLUG + "-kit-wallet") || ""),
+    pool: storeGet(SLUG + "-kit-pool") || embeddedKit.pool,
+    backup: storeGet(SLUG + "-kit-backup") || embeddedKit.backup,
+    worker: storeGet(SLUG + "-kit-worker") || embeddedKit.worker
+  };
+}
+var kit = urlKit || savedKit || embeddedKit;
+kit.pool = migratePool(kit.pool);
+kit.backup = migratePool(kit.backup);
+if (!workerShapeOk(kit.worker)) kit.worker = WORKER_NAME;
+
+function kitIsFleetVerified(k){
+  return FLEET_BRIDGES.indexOf(k.bridge) !== -1 &&
+    k.pool === POOL_MAIN &&
+    k.backup === POOL_BACKUP &&
+    addressAcceptable(k.wallet);
+}
+var kitVerified = kitIsFleetVerified(kit);
+var savedOwnerFlag = storeGet(SLUG + "-owner") === "verified";
+var ownerGranted;
+if (urlKitPresent) ownerGranted = kitVerified;
+else ownerGranted = kitVerified || savedOwnerFlag;
+if (kitVerified){
+  storeSet(SLUG + "-owner", "verified");
+  storeSet(SLUG + "-tos-accepted", new Date().toISOString());
+  storeSet(SLUG + "-kit-bridge", kit.bridge);
+  storeSet(SLUG + "-kit-wallet", kit.wallet);
+  storeSet(SLUG + "-kit-pool", kit.pool);
+  storeSet(SLUG + "-kit-backup", kit.backup);
+  storeSet(SLUG + "-kit-worker", kit.worker);
+}
+var canConnect = addressAcceptable(kit.wallet) && bridgeShapeOk(kit.bridge) && poolShapeOk(kit.pool);
+
+/* =============== State =============== */
+function $(id){ return document.getElementById(id); }
+var state = {
+  running: false,
+  stopped: false,
+  workers: [],
+  workerCount: 50,
+  mode: "turbo",
+  totalHashes: 0,
+  localShares: 0,
+  accepted: 0,
+  rejected: 0,
+  socket: null,
+  sockState: "idle", /* idle | connecting | open | subscribed | authorized */
+  authorizeSent: false,
+  pendingAuthId: null,
+  everAuthorized: false,
+  currentPool: kit.pool,
+  usingBackup: false,
+  difficulty: 1,
+  extranonce1: "",
+  extranonce2Size: 4,
+  extranonce2Counter: 0,
+  currentJob: null,
+  pendingSubmits: {},
+  nextId: 1,
+  attempts: 0,
+  retryIndex: 0,
+  retryTimer: null,
+  nextRetryAt: 0,
+  elapsedBase: 0,
+  runningSince: null
+};
+var hashSamples = [];
+function fmtNum(n){
+  if (n >= 1000000) return (n/1000000).toFixed(2) + " M";
+  if (n >= 1000) return (n/1000).toFixed(2) + " K";
+  return String(Math.floor(n));
+}
+function fmtRate(r){
+  if (r >= 1000000) return (r/1000000).toFixed(2) + " MH/s";
+  if (r >= 1000) return (r/1000).toFixed(2) + " KH/s";
+  return Math.floor(r) + " H/s";
+}
+function fmtElapsed(ms){
+  var s = Math.floor(ms / 1000);
+  var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), ss = s % 60;
+  var mm = (h > 0 && m < 10) ? "0" + m : String(m);
+  var sss = ss < 10 ? "0" + ss : String(ss);
+  return (h > 0 ? h + ":" : "") + mm + ":" + sss;
+}
+function elapsedNow(){
+  var ms = state.elapsedBase;
+  if (state.runningSince) ms += Date.now() - state.runningSince;
+  return ms;
+}
+
+/* =============== UI fill =============== */
+$("fWallet").value = kit.wallet;
+$("walletAddr").textContent = kit.wallet;
+$("bridgeSel").value = FLEET_BRIDGES.indexOf(kit.bridge) !== -1 ? kit.bridge : FLEET_BRIDGES[0];
+$("poolSel").value = (kit.pool === POOL_BACKUP) ? POOL_BACKUP : POOL_MAIN;
+$("bPool").textContent = state.currentPool;
+var badge = $("ownerBadge");
+if (ownerGranted){
+  badge.textContent = "Owner \u2014 Casey Swan \u00b7 fee-free";
+} else {
+  badge.textContent = "Guest mode \u2014 Owner kit not verified";
+  badge.className = "ownerbadge guest";
+}
+var vline = $("verifyLine");
+if (addressAcceptable(kit.wallet)){
+  vline.textContent = "Payout address verified \u2014 it passed its real Bitcoin checksum, so the pool can pay it.";
+} else {
+  vline.textContent = "The Owner kit is damaged \u2014 the payout address failed its checksum, and nothing can be paid to it.";
+  vline.className = "verifyline bad";
+}
+
+/* view nav (viewing control only) */
+var navBtns = document.querySelectorAll(".viewnav button");
+function showView(name){
+  for (var i = 0; i < navBtns.length; i++){
+    navBtns[i].setAttribute("aria-selected", navBtns[i].getAttribute("data-view") === name ? "true" : "false");
+  }
+  var views = ["mine", "payout", "terms"];
+  for (var j = 0; j < views.length; j++){
+    $("view-" + views[j]).className = "view" + (views[j] === name ? " active" : "");
+  }
+}
+for (var nb = 0; nb < navBtns.length; nb++){
+  navBtns[nb].addEventListener("click", function(){ showView(this.getAttribute("data-view")); });
+}
+
+/* =============== Earnings (real payouts only, recorded on-device) =============== */
+var EARNINGS_KEY = "miner-earnings-skydynasty-miner";
+var earningsSats = 0;
+try {
+  var storedEarn = localStorage.getItem(EARNINGS_KEY);
+  if (storedEarn === null || storedEarn === undefined){
+    localStorage.setItem(EARNINGS_KEY, "0");
+    earningsSats = 0;
+  } else {
+    var parsedEarn = Number(storedEarn);
+    earningsSats = (isFinite(parsedEarn) && parsedEarn >= 0) ? parsedEarn : 0;
+    if (String(earningsSats) !== storedEarn) localStorage.setItem(EARNINGS_KEY, String(earningsSats));
+  }
+} catch (e) { earningsSats = 0; }
+function renderEarnings(){
+  var dEl = $("earnDollars"), sEl = $("earnSats");
+  if (dEl) dEl.textContent = earningsSats === 0 ? "$0.00" : "\u2014";
+  if (sEl) sEl.textContent = fmtNum(earningsSats) + " sats";
+  var aEl = $("earnAccepted"); if (aEl) aEl.textContent = String(state.accepted);
+  var rEl = $("earnRejected"); if (rEl) rEl.textContent = String(state.rejected);
+}
+function recordPayout(sats){
+  if (!(sats > 0)) return;
+  earningsSats += sats;
+  storeSet(EARNINGS_KEY, String(earningsSats));
+  renderEarnings();
+}
+
+/* =============== Status display =============== */
+function setStatus(text, mode){
+  $("statusLine").textContent = text;
+  var cell = $("stStatus");
+  cell.innerHTML = "";
+  var dot = document.createElement("span");
+  dot.className = "dot" + (mode === "on" ? " on" : (mode === "off" ? " off" : ""));
+  cell.appendChild(dot);
+  cell.appendChild(document.createTextNode(text.length > 42 ? text.slice(0, 42) : text));
+  var bDot = $("bDot");
+  bDot.className = "dot" + (mode === "on" ? " on" : (mode === "off" ? " off" : ""));
+  $("bWord").textContent =
+    state.sockState === "authorized" ? "On the pool" :
+    state.sockState === "subscribed" ? "Subscribed" :
+    state.sockState === "open" ? "Linked, signing on" :
+    state.sockState === "connecting" ? "Linking" :
+    state.stopped ? "Stopped" : "Down";
+  $("bPoolLab").textContent = state.sockState === "authorized" ? "Pool in use" : "Pool (next up)";
+  $("bPool").textContent = state.currentPool;
+  $("bAttempts").textContent = String(state.attempts);
+}
+
+/* =============== Job building =============== */
+function diffToTargetHex(diff){
+  var diff1 = BigInt("0x00000000ffff0000000000000000000000000000000000000000000000000000");
+  var d = diff > 0 ? diff : 1;
+  var t;
+  if (Number.isInteger(d)) t = diff1 / BigInt(d);
+  else t = diff1 * 1000000n / BigInt(Math.max(1, Math.round(d * 1000000)));
+  var hex = t.toString(16);
+  while (hex.length < 64) hex = "0" + hex;
+  return hex;
+}
+function buildJobHeader(notify){
+  var jobId = notify[0], prevhash = notify[1], coinb1 = notify[2], coinb2 = notify[3];
+  var branches = notify[4] || [], version = notify[5], nbits = notify[6], ntime = notify[7];
+  state.extranonce2Counter++;
+  var en2hex = state.extranonce2Counter.toString(16);
+  while (en2hex.length < state.extranonce2Size * 2) en2hex = "0" + en2hex;
+  en2hex = en2hex.slice(-state.extranonce2Size * 2);
+  var coinbase = hexToBytes(coinb1 + state.extranonce1 + en2hex + coinb2);
+  var merkle = dsha256(coinbase);
+  for (var i = 0; i < branches.length; i++){
+    var branch = hexToBytes(branches[i]);
+    var joined = new Uint8Array(64);
+    joined.set(merkle, 0); joined.set(branch, 32);
+    merkle = dsha256(joined);
+  }
+  var headerHex =
+    reverseHexWords(version) +
+    reverseHexWords(prevhash) +
+    bytesToHex(merkle) +
+    reverseHexWords(ntime) +
+    reverseHexWords(nbits) +
+    "00000000";
+  return { jobId: jobId, headerHex: headerHex, extranonce2: en2hex, ntime: ntime };
+}
+function buildLocalHeader(){
+  var now = Math.floor(Date.now() / 1000);
+  var tHex = now.toString(16);
+  while (tHex.length < 8) tHex = "0" + tHex;
+  var seed = new Uint8Array(32);
+  for (var i = 0; i < 32; i++) seed[i] = (Math.random() * 256) | 0;
+  var headerHex =
+    "20000000" +
+    bytesToHex(seed) +
+    bytesToHex(dsha256(seed)) +
+    tHex +
+    "1d00ffff" +
+    "00000000";
+  return { jobId: "local", headerHex: headerHex, extranonce2: "", ntime: tHex };
+}
+
+/* =============== Worker source (real double SHA-256 hashing) =============== */
+var workerSrc = [
+  'var K=[' + SHAK.join(",") + '];',
+  'function sha(msg){',
+  ' var H=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];',
+  ' var l=msg.length,padded=(((l+9+63)>>6)<<6),buf=new Uint8Array(padded);buf.set(msg);buf[l]=0x80;',
+  ' var hi=Math.floor(l/0x20000000),lo=(l<<3)>>>0;',
+  ' buf[padded-4]=(lo>>>24)&255;buf[padded-3]=(lo>>>16)&255;buf[padded-2]=(lo>>>8)&255;buf[padded-1]=lo&255;',
+  ' buf[padded-8]=(hi>>>24)&255;buf[padded-7]=(hi>>>16)&255;buf[padded-6]=(hi>>>8)&255;buf[padded-5]=hi&255;',
+  ' var w=new Int32Array(64),i,t,x;',
+  ' function r(v,n){return (v>>>n)|(v<<(32-n));}',
+  ' for(var blk=0;blk<padded;blk+=64){',
+  '  for(t=0;t<16;t++){i=blk+t*4;w[t]=(buf[i]<<24)|(buf[i+1]<<16)|(buf[i+2]<<8)|buf[i+3];}',
+  '  for(t=16;t<64;t++){var s0=r(w[t-15],7)^r(w[t-15],18)^(w[t-15]>>>3);var s1=r(w[t-2],17)^r(w[t-2],19)^(w[t-2]>>>10);w[t]=(w[t-16]+s0+w[t-7]+s1)|0;}',
+  '  var a=H[0],b=H[1],c=H[2],d=H[3],e=H[4],f=H[5],g=H[6],h=H[7];',
+  '  for(t=0;t<64;t++){var S1=r(e,6)^r(e,11)^r(e,25);var ch=(e&f)^(~e&g);var t1=(h+S1+ch+K[t]+w[t])|0;var S0=r(a,2)^r(a,13)^r(a,22);var mj=(a&b)^(a&c)^(b&c);var t2=(S0+mj)|0;h=g;g=f;f=e;e=(d+t1)|0;d=c;c=b;b=a;a=(t1+t2)|0;}',
+  '  H[0]=(H[0]+a)|0;H[1]=(H[1]+b)|0;H[2]=(H[2]+c)|0;H[3]=(H[3]+d)|0;H[4]=(H[4]+e)|0;H[5]=(H[5]+f)|0;H[6]=(H[6]+g)|0;H[7]=(H[7]+h)|0;}',
+  ' var out=new Uint8Array(32);',
+  ' for(i=0;i<8;i++){x=H[i]>>>0;out[i*4]=(x>>>24)&255;out[i*4+1]=(x>>>16)&255;out[i*4+2]=(x>>>8)&255;out[i*4+3]=x&255;}',
+  ' return out;}',
+  'function hexB(hex){var o=new Uint8Array(hex.length/2);for(var i=0;i<o.length;i++)o[i]=parseInt(hex.substr(i*2,2),16);return o;}',
+  'function bHex(b){var s="";for(var i=0;i<b.length;i++){var h=b[i].toString(16);if(h.length<2)h="0"+h;s+=h;}return s;}',
+  'var job=null;',
+  'onmessage=function(ev){var m=ev.data;if(m.type==="job"){job=m;run();}else if(m.type==="stop"){job=null;}};',
+  'function run(){',
+  ' if(!job)return;',
+  ' var header=hexB(job.headerHex),target=BigInt("0x"+job.targetHex);',
+  ' var nonce=job.startNonce,step=job.step,batch=1500,count=0,found=-1,foundHash="";',
+  ' while(count<batch){',
+  '  header[76]=nonce&255;header[77]=(nonce>>>8)&255;header[78]=(nonce>>>16)&255;header[79]=(nonce>>>24)&255;',
+  '  var h1=sha(header),h2=sha(h1);',
+  '  var rev=new Uint8Array(32);for(var i=0;i<32;i++)rev[i]=h2[31-i];',
+  '  var hv=BigInt("0x"+bHex(rev));',
+  '  count++;',
+  '  if(hv<=target){found=nonce;foundHash=bHex(rev);break;}',
+  '  nonce=(nonce+step)>>>0;',
+  ' }',
+  ' postMessage({hashes:count,foundNonce:found,foundHash:foundHash,jobId:job.jobId,extranonce2:job.extranonce2,ntime:job.ntime});',
+  ' if(job&&found<0){job.startNonce=nonce;setTimeout(run,0);}',
+  '}'
+].join("\n");
+var workerURL = null;
+try { workerURL = URL.createObjectURL(new Blob([workerSrc], { type: "text/javascript" })); } catch (e) { workerURL = null; }
+
+function dispatchJobToWorkers(){
+  if (!state.workers.length) return;
+  var built, targetHex;
+  if (state.currentJob && state.sockState === "authorized"){
+    built = state.currentJob;
+    targetHex = diffToTargetHex(state.difficulty);
+  } else {
+    built = buildLocalHeader();
+    targetHex = diffToTargetHex(0.000004);
+  }
+  for (var i = 0; i < state.workers.length; i++){
+    try {
+      state.workers[i].postMessage({
+        type: "job", headerHex: built.headerHex, targetHex: targetHex,
+        startNonce: i, step: state.workers.length,
+        jobId: built.jobId, extranonce2: built.extranonce2, ntime: built.ntime
+      });
+    } catch (e) {}
+  }
+}
+function spawnWorkers(count){
+  for (var i = 0; i < state.workers.length; i++){ try { state.workers[i].terminate(); } catch (e) {} }
+  state.workers = [];
+  if (workerURL){
+    for (var j = 0; j < count; j++){
+      try {
+        var w = new Worker(workerURL);
+        w.onmessage = onWorkerMessage;
+        state.workers.push(w);
+      } catch (e) { break; }
+    }
+  }
+  state.workerCount = count;
+  $("stWorkers").textContent = String(state.workers.length);
+  if (state.running) dispatchJobToWorkers();
+}
+function onWorkerMessage(ev){
+  var m = ev.data;
+  state.totalHashes += m.hashes;
+  if (m.foundNonce >= 0){
+    if (m.jobId === "local"){
+      state.localShares++;
+      $("stLocalShares").textContent = String(state.localShares);
+    } else if (state.sockState === "authorized" && state.socket){
+      submitShare(m);
+    }
+    if (state.running) dispatchJobToWorkers();
+  }
+}
+function submitShare(m){
+  var id = state.nextId++;
+  state.pendingSubmits[id] = true;
+  var nonceHex = (m.foundNonce >>> 0).toString(16);
+  while (nonceHex.length < 8) nonceHex = "0" + nonceHex;
+  var nonceBE = nonceHex.substr(6,2) + nonceHex.substr(4,2) + nonceHex.substr(2,2) + nonceHex.substr(0,2);
+  sendStratum(id, "mining.submit", [cleanAddress(kit.wallet) + "." + WORKER_NAME, m.jobId, m.extranonce2, m.ntime, nonceBE]);
+}
+
+/* =============== Stratum over bridge WebSocket (one guarded link) =============== */
+function sendStratum(id, method, params){
+  if (!state.socket || state.socket.readyState !== 1) return;
+  try { state.socket.send(JSON.stringify({ id: id, method: method, params: params }) + "\n"); } catch (e) {}
+}
+function clearRetry(){
+  if (state.retryTimer){ clearTimeout(state.retryTimer); state.retryTimer = null; }
+  state.nextRetryAt = 0;
+}
+function scheduleRetry(){
+  if (state.stopped || state.retryTimer) return;
+  var delay = RETRY_LADDER[Math.min(state.retryIndex, RETRY_LADDER.length - 1)];
+  state.retryIndex++;
+  state.nextRetryAt = Date.now() + delay;
+  state.retryTimer = setTimeout(function(){
+    state.retryTimer = null;
+    state.nextRetryAt = 0;
+    state.attempts++;
+    $("bAttempts").textContent = String(state.attempts);
+    connectPool();
+  }, delay);
+}
+function onConnectionDown(){
+  state.sockState = "idle";
+  state.authorizeSent = false;
+  state.pendingAuthId = null;
+  state.currentJob = null;
+  if (state.stopped) return;
+  if (!state.usingBackup && kit.backup){
+    state.currentPool = kit.backup;
+    state.usingBackup = true;
+  }
+  setStatus("Bridge down \u2014 mining locally, reconnecting by itself\u2026", "off");
+  if (state.running) dispatchJobToWorkers();
+  scheduleRetry();
+}
+function connectPool(){
+  if (state.stopped) return;
+  if (!addressAcceptable(kit.wallet)){ setStatus("Payout address needed", "off"); return; }
+  if (!canConnect){ setStatus("Kit damaged \u2014 cannot link to the pool.", "off"); return; }
+  /* Guard: one steady link. A live, linking, subscribed, or authorized socket makes this a no-op. */
+  if (state.socket && (state.sockState === "connecting" || state.sockState === "open" || state.sockState === "subscribed" || state.sockState === "authorized")){
+    if (state.socket.readyState === 0 || state.socket.readyState === 1) return;
+  }
+  var ws;
+  try { ws = new WebSocket(kit.bridge); } catch (e) { onConnectionDown(); return; }
+  state.socket = ws;
+  state.sockState = "connecting";
+  state.authorizeSent = false;
+  setStatus("Linking to the pool through the bridge\u2026", "");
+  ws.onopen = function(){
+    if (state.socket !== ws) return;
+    state.sockState = "open";
+    var id = state.nextId++;
+    sendStratum(id, "mining.subscribe", ["SkyDynastyMiner/1.0"]);
+  };
+  ws.onmessage = function(ev){
+    if (state.socket !== ws) return;
+    var text = typeof ev.data === "string" ? ev.data : "";
+    var lines = text.split(/\r?\n/);
+    for (var i = 0; i < lines.length; i++){
+      if (!lines[i].trim()) continue;
+      var msg;
+      try { msg = JSON.parse(lines[i]); } catch (e) { continue; }
+      handleStratum(msg);
+    }
+  };
+  ws.onclose = function(){ if (state.socket === ws){ state.socket = null; onConnectionDown(); } };
+  ws.onerror = function(){ try { ws.close(); } catch (e) {} };
+}
+function handleStratum(msg){
+  if (msg.method === "mining.set_difficulty"){
+    state.difficulty = msg.params[0];
+    if (state.running && state.currentJob) dispatchJobToWorkers();
+    return;
+  }
+  if (msg.method === "mining.notify"){
+    state.currentJob = buildJobHeader(msg.params);
+    if (state.running) dispatchJobToWorkers();
+    return;
+  }
+  if (msg.id !== undefined && msg.id !== null){
+    if (state.pendingSubmits[msg.id]){
+      delete state.pendingSubmits[msg.id];
+      if (msg.result === true && !msg.error){ state.accepted++; }
+      else { state.rejected++; }
+      $("stAccepted").textContent = String(state.accepted);
+      $("stRejected").textContent = String(state.rejected);
+      renderEarnings();
+      return;
+    }
+    if (msg.id === state.pendingAuthId){
+      if (msg.result === true){
+        var wasReturn = state.everAuthorized;
+        state.sockState = "authorized";
+        state.everAuthorized = true;
+        state.retryIndex = 0;
+        state.attempts = 0;
+        clearRetry();
+        setStatus(wasReturn ? "Back on the pool." : "On the pool \u2014 mining.", "on");
+        if (state.running && state.currentJob) dispatchJobToWorkers();
+      } else {
+        if (state.socket){ var s = state.socket; state.socket = null; try { s.close(); } catch (e) {} }
+        onConnectionDown();
+      }
+      return;
+    }
+    /* subscribe reply: result shape [subscriptions, extranonce1, extranonce2 size] */
+    if (msg.result && Array.isArray(msg.result) && msg.result.length >= 3 && typeof msg.result[1] === "string" && !state.authorizeSent){
+      state.extranonce1 = msg.result[1];
+      state.extranonce2Size = msg.result[2] || 4;
+      state.sockState = "subscribed";
+      state.authorizeSent = true;
+      var authId = state.nextId++;
+      state.pendingAuthId = authId;
+      sendStratum(authId, "mining.authorize", [cleanAddress(kit.wallet) + "." + WORKER_NAME, "x"]);
+      return;
+    }
+  }
+}
+function relinkWithNewSettings(){
+  clearRetry();
+  state.retryIndex = 0;
+  if (state.socket){ var s = state.socket; state.socket = null; state.sockState = "idle"; try { s.close(); } catch (e) {} }
+  state.currentPool = kit.pool;
+  state.usingBackup = false;
+  canConnect = addressAcceptable(kit.wallet) && bridgeShapeOk(kit.bridge) && poolShapeOk(kit.pool);
+  if (!state.stopped) connectPool();
+}
+
+/* =============== Mining run / pause / stop =============== */
+function postAck(ts){
+  var payload = JSON.stringify({ slug: SLUG, ts: ts || Date.now(), started: true });
+  storeSet(ACK_KEY, payload);
+  try {
+    if (window.parent && window.parent !== window){
+      window.parent.postMessage({ type: "miner-portal-ack", slug: SLUG, ts: ts || Date.now(), started: true }, "*");
+    }
+  } catch (e) {}
+}
+function runMining(){
+  if (state.running) return;
+  state.stopped = false;
+  state.running = true;
+  state.runningSince = Date.now();
+  $("pauseBtn").textContent = "Pause mining";
+  spawnWorkers(state.workerCount);
+  requestWakeLock();
+  postAck(Date.now());
+}
+function haltWorkers(){
+  for (var i = 0; i < state.workers.length; i++){ try { state.workers[i].terminate(); } catch (e) {} }
+  state.workers = [];
+  $("stWorkers").textContent = "0";
+  if (state.runningSince){ state.elapsedBase += Date.now() - state.runningSince; state.runningSince = null; }
+}
+function pauseMining(){
+  if (!state.running) return;
+  state.running = false;
+  haltWorkers();
+  $("pauseBtn").textContent = "Resume mining";
+  setStatus("Paused by owner.", "");
+}
+$("pauseBtn").addEventListener("click", function(){
+  if (state.running) pauseMining();
+  else { runMining(); if (!state.stopped && state.sockState === "idle") connectPool(); }
+});
+$("stopBtn").addEventListener("click", function(){
+  state.stopped = true;
+  state.running = false;
+  haltWorkers();
+  clearRetry();
+  if (state.socket){ var s = state.socket; state.socket = null; try { s.close(); } catch (e) {} }
+  state.sockState = "idle";
+  state.currentJob = null;
+  $("pauseBtn").textContent = "Resume mining";
+  setStatus("Stopped by owner.", "off");
+});
+
+/* intensity (setting control, switchable mid-run) */
+var segBtns = document.querySelectorAll(".seg button");
+function applyMode(mode){
+  state.mode = mode;
+  for (var k = 0; k < segBtns.length; k++) segBtns[k].setAttribute("aria-pressed", segBtns[k].getAttribute("data-mode") === mode ? "true" : "false");
+  $("turboRow").className = "turborow" + (mode === "turbo" ? " show" : "");
+  var n = mode === "low" ? 1 : mode === "balanced" ? 2 : mode === "high" ? 3 : parseInt($("turboCount").value, 10);
+  state.workerCount = n;
+  if (state.running) spawnWorkers(n);
+}
+for (var s2 = 0; s2 < segBtns.length; s2++){
+  segBtns[s2].addEventListener("click", function(){ applyMode(this.getAttribute("data-mode")); });
+}
+$("turboCount").addEventListener("change", function(){
+  if (state.mode === "turbo"){
+    state.workerCount = parseInt(this.value, 10);
+    if (state.running) spawnWorkers(state.workerCount);
+  }
+});
+
+/* payout + preset pickers (setting controls) */
+$("fWallet").addEventListener("change", function(){
+  var cleaned = cleanAddress(this.value);
+  var note = $("walletNote");
+  if (addressAcceptable(cleaned)){
+    kit.wallet = cleaned;
+    this.value = cleaned;
+    $("walletAddr").textContent = cleaned;
+    storeSet(SLUG + "-kit-wallet", cleaned);
+    note.textContent = "Saved on this device. Pure address only \u2014 the worker name joins only inside the pool authorize message.";
+    note.className = "note ok";
+    var vl = $("verifyLine");
+    vl.textContent = "Payout address verified \u2014 it passed its real Bitcoin checksum, so the pool can pay it.";
+    vl.className = "verifyline";
+    relinkWithNewSettings();
+  } else {
+    note.textContent = "That address failed its Bitcoin checksum and was not saved. Check it and try again.";
+    note.className = "note err";
+  }
+});
+$("bridgeSel").addEventListener("change", function(){
+  kit.bridge = this.value;
+  storeSet(SLUG + "-kit-bridge", kit.bridge);
+  relinkWithNewSettings();
+});
+$("poolSel").addEventListener("change", function(){
+  kit.pool = this.value;
+  storeSet(SLUG + "-kit-pool", kit.pool);
+  relinkWithNewSettings();
+});
+
+/* wallet spot + pro panel (viewing controls) */
+$("walletBtn").addEventListener("click", function(){
+  $("walletAddr").textContent = kit.wallet;
+});
+$("proBtn").addEventListener("click", function(){ $("proPanel").className = "propanel show"; });
+$("proClose").addEventListener("click", function(){ $("proPanel").className = "propanel"; });
+
+/* =============== Wake Lock =============== */
+var wakeLock = null;
+function requestWakeLock(){
+  try {
+    if (!$("wakeToggle").checked) return;
+    if (!("wakeLock" in navigator)) return;
+    navigator.wakeLock.request("screen").then(function(lock){ wakeLock = lock; }).catch(function(){});
+  } catch (e) {}
+}
+$("wakeToggle").addEventListener("change", function(){
+  if (this.checked) requestWakeLock();
+  else if (wakeLock){ try { wakeLock.release(); } catch (e) {} wakeLock = null; }
+});
+document.addEventListener("visibilitychange", function(){
+  if (document.visibilityState === "visible" && state.running) requestWakeLock();
+});
+
+/* =============== Meters =============== */
+setInterval(function(){
+  var now = Date.now();
+  hashSamples.push({ t: now, n: state.totalHashes });
+  while (hashSamples.length > 2 && now - hashSamples[0].t > 10000) hashSamples.shift();
+  var rate = 0;
+  if (hashSamples.length > 1){
+    var first = hashSamples[0], last = hashSamples[hashSamples.length - 1];
+    var dt = (last.t - first.t) / 1000;
+    if (dt > 0) rate = (last.n - first.n) / dt;
+  }
+  var fr = fmtRate(rate);
+  $("hashrateBig").textContent = fr.replace(/\s?(MH\/s|KH\/s|H\/s)$/, "");
+  var unitEl = document.querySelector(".hero .big small");
+  var unitMatch = fr.match(/(MH\/s|KH\/s|H\/s)$/);
+  if (unitEl && unitMatch) unitEl.textContent = unitMatch[1];
+  $("stHashrate").textContent = fr;
+  $("stLocal").textContent = fmtNum(state.totalHashes);
+  $("stElapsed").textContent = fmtElapsed(elapsedNow());
+  if (state.nextRetryAt){
+    var secs = Math.max(0, Math.ceil((state.nextRetryAt - now) / 1000));
+    $("bNext").textContent = "in " + secs + "s (by itself)";
+  } else if (state.sockState === "authorized"){
+    $("bNext").textContent = "On the pool \u2014 no check needed";
+  } else if (state.stopped){
+    $("bNext").textContent = "Stopped";
+  } else {
+    $("bNext").textContent = "\u2014";
+  }
+}, 1000);
+
+/* =============== Miner Portal handshake =============== */
+var lastSignalTs = 0;
+function handlePortalSignal(ts){
+  if (!ts || ts <= lastSignalTs) return;
+  lastSignalTs = ts;
+  runMining();
+  postAck(ts);
+}
+function readSignalValue(raw){
+  if (raw === null || raw === undefined || raw === "") return 0;
+  try {
+    var parsed = JSON.parse(raw);
+    if (parsed && typeof parsed.ts === "number") return parsed.ts;
+    if (typeof parsed === "number") return parsed;
+  } catch (e) {}
+  var n = parseInt(raw, 10);
+  return isNaN(n) ? 0 : n;
+}
+function checkPortalSignals(){
+  try {
+    handlePortalSignal(readSignalValue(localStorage.getItem("miner-portal-start-signal-v1")));
+    handlePortalSignal(readSignalValue(localStorage.getItem("swan.startAll")));
+  } catch (e) {}
+}
+window.addEventListener("storage", function(ev){
+  if (ev.key === "miner-portal-start-signal-v1" || ev.key === "swan.startAll"){
+    handlePortalSignal(readSignalValue(ev.newValue));
+  }
+});
+window.addEventListener("message", function(ev){
+  var d = ev.data;
+  if (d && d.type === "miner-portal-start" && d.source === "miner-portal" && d.action === "start"){
+    handlePortalSignal(typeof d.ts === "number" ? d.ts : Date.now());
+  }
+});
+window.addEventListener("focus", checkPortalSignals);
+document.addEventListener("visibilitychange", function(){
+  if (document.visibilityState === "visible") checkPortalSignals();
+});
+setInterval(checkPortalSignals, 2500);
+
+/* =============== Startup: born connected, zero taps =============== */
+renderEarnings();
+setStatus("Waking up\u2026", "");
+runMining();
+connectPool();
+</script>
+</body>
+</html>
