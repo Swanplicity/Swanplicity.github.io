@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-11-21T04:12:58Z",
- "generated_at_epoch": 1795234378,
+ "generated_at": "2026-11-21T04:18:11Z",
+ "generated_at_epoch": 1795234691,
  "queue_depths": {
   "crew": 0,
   "main": 0,
@@ -8,8 +8,8 @@
  },
  "queue_total": 0,
  "server_ok": true,
- "tasks_done": 29,
- "uptime_s": 236,
+ "tasks_done": 33,
+ "uptime_s": 541,
  "workers": [
   {
    "completed": 1,
@@ -36,19 +36,19 @@
    "state": "idle"
   },
   {
-   "completed": 0,
+   "completed": 1,
    "name": "crew_5",
    "pool": "crew",
-   "state": "working"
+   "state": "idle"
   },
   {
-   "completed": 0,
+   "completed": 1,
    "name": "crew_6",
    "pool": "crew",
    "state": "idle"
   },
   {
-   "completed": 0,
+   "completed": 1,
    "name": "crew_7",
    "pool": "crew",
    "state": "idle"
@@ -120,7 +120,7 @@
    "state": "idle"
   },
   {
-   "completed": 0,
+   "completed": 1,
    "name": "crew_19",
    "pool": "crew",
    "state": "idle"
@@ -162,10 +162,10 @@
    "state": "idle"
   },
   {
-   "completed": 0,
+   "completed": 1,
    "name": "crew_26",
    "pool": "crew",
-   "state": "working"
+   "state": "idle"
   },
   {
    "completed": 0,
