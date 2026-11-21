@@ -1,10 +1,315 @@
 {
- "generated_at": "2026-11-21T04:02:55Z",
- "generated_at_epoch": 1795233775,
- "queue_depths": {},
+ "generated_at": "2026-11-21T04:03:35Z",
+ "generated_at_epoch": 1795233815,
+ "queue_depths": {
+  "crew": 0,
+  "main": 0,
+  "personal": 0
+ },
  "queue_total": 0,
- "server_ok": false,
- "tasks_done": 0,
- "uptime_s": 0,
- "workers": []
+ "server_ok": true,
+ "tasks_done": 29,
+ "uptime_s": 1057,
+ "workers": [
+  {
+   "completed": 1,
+   "name": "crew_1",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_2",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_3",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "crew_4",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_5",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_6",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_7",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "crew_8",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "crew_9",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "crew_10",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_11",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_12",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_13",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "crew_14",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_15",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_16",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_17",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_18",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_19",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "crew_20",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_21",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_22",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_23",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_24",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_25",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_26",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_27",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_28",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "crew_29",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "crew_30",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_31",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_32",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_33",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_34",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "crew_35",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_36",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_37",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_38",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "crew_39",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "crew_40",
+   "pool": "crew",
+   "state": "idle"
+  },
+  {
+   "completed": 4,
+   "name": "worker_1",
+   "pool": "main",
+   "state": "idle"
+  },
+  {
+   "completed": 2,
+   "name": "worker_2",
+   "pool": "main",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "worker_3",
+   "pool": "main",
+   "state": "idle"
+  },
+  {
+   "completed": 4,
+   "name": "worker_4",
+   "pool": "main",
+   "state": "idle"
+  },
+  {
+   "completed": 3,
+   "name": "worker_5",
+   "pool": "main",
+   "state": "idle"
+  },
+  {
+   "completed": 2,
+   "name": "personal_1",
+   "pool": "personal",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "personal_2",
+   "pool": "personal",
+   "state": "idle"
+  },
+  {
+   "completed": 1,
+   "name": "personal_3",
+   "pool": "personal",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "personal_4",
+   "pool": "personal",
+   "state": "idle"
+  },
+  {
+   "completed": 0,
+   "name": "personal_5",
+   "pool": "personal",
+   "state": "idle"
+  }
+ ]
 }
