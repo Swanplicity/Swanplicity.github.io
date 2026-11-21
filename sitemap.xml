@@ -2,7 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://swanplicity.github.io/</loc>
-    <lastmod>2026-11-19</lastmod>
+    <lastmod>2026-11-21</lastmod>
+  </url>
+  <url>
+    <loc>https://swanplicity.github.io/workers/</loc>
+    <lastmod>2026-11-21</lastmod>
   </url>
   <url>
     <loc>https://swanplicity.github.io/fleet/</loc>
