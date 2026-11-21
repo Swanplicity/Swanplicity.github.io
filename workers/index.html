@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Worker Board — Swanplicity by Casey Swan</title>
+<meta name="description" content="See what the workers on the web computer are doing right now. A Swanplicity board by Casey Swan.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://swanplicity.github.io/workers/">
+<style>
+  :root{
+    --ink:#0d1117; --ink2:#131a24; --velvet:#0a0e14;
+    --gold:#d4af37; --gold2:#f0d778;
+    --paper:#f5f1e6; --muted:#aab6c2; --muted2:#c7d0da;
+    --card:#161e29; --card2:#1a2433; --line:#2a3646;
+    --green:#3fb96f; --red:#e05d5d;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:radial-gradient(1200px 600px at 50% -100px, #1c2736 0%, var(--velvet) 55%);color:var(--paper);font-family:Georgia,'Times New Roman',serif;line-height:1.55;-webkit-font-smoothing:antialiased;min-height:100vh}
+  .wrap{max-width:960px;margin:0 auto;padding:0 18px 48px}
+  header{padding:34px 0 8px;text-align:center}
+  .mark{width:52px;height:52px;border:2px solid var(--gold);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:28px;color:var(--gold);font-style:italic;background:var(--ink2);margin-bottom:12px}
+  h1{font-size:34px;letter-spacing:.5px;color:var(--paper)}
+  .sub{color:var(--muted2);font-size:17px;margin-top:4px}
+  .updated{color:var(--muted);font-size:14px;margin-top:10px;font-family:Helvetica,Arial,sans-serif}
+  .stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:24px 0 6px}
+  @media(min-width:640px){.stats{grid-template-columns:repeat(4,1fr)}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 14px;text-align:center}
+  .stat .label{font-family:Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+  .stat .value{font-size:26px;margin-top:6px;color:var(--paper)}
+  .dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:baseline}
+  .dot.up{background:var(--green);box-shadow:0 0 8px var(--green)}
+  .dot.down{background:var(--red);box-shadow:0 0 8px var(--red)}
+  h2{font-size:23px;margin:30px 0 2px;color:var(--gold2)}
+  .pool-sub{color:var(--muted);font-size:15px;margin-bottom:14px}
+  .grid{display:grid;grid-template-columns:1fr;gap:12px}
+  @media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+  .worker{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;align-items:center;gap:14px}
+  .wname{font-size:19px}
+  .wjobs{color:var(--muted);font-size:14px;font-family:Helvetica,Arial,sans-serif;margin-top:2px}
+  .pill{margin-left:auto;font-family:Helvetica,Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:.4px;padding:6px 12px;border-radius:999px;white-space:nowrap}
+  .pill.working{background:rgba(212,175,55,.16);color:var(--gold2);border:1px solid var(--gold)}
+  .pill.ready{background:rgba(170,182,194,.12);color:var(--muted2);border:1px solid var(--line)}
+  .pill .pdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;background:currentColor}
+  .pill.working .pdot{animation:pulse 1.2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+  .note{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center;color:var(--muted2);margin-top:14px}
+  footer{margin-top:40px;text-align:center;color:var(--muted);font-size:14px}
+  footer .brandline{color:var(--gold2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="mark">S</div>
+    <h1>Worker Board</h1>
+    <p class="sub">What the workers on the web computer are doing, right now.</p>
+    <p class="updated" id="updated">Loading the latest board&hellip;</p>
+  </header>
+
+  <section class="stats" aria-label="Server summary">
+    <div class="stat"><div class="label">Web Computer</div><div class="value" id="st-server">&mdash;</div></div>
+    <div class="stat"><div class="label">Running For</div><div class="value" id="st-uptime">&mdash;</div></div>
+    <div class="stat"><div class="label">Jobs Done</div><div class="value" id="st-done">&mdash;</div></div>
+    <div class="stat"><div class="label">Jobs Waiting</div><div class="value" id="st-queue">&mdash;</div></div>
+  </section>
+
+  <div id="board"></div>
+  <div class="note" id="note">Loading worker cards&hellip;</div>
+
+  <footer>
+    <p class="brandline">Swanplicity</p>
+    <p>By Casey Swan &middot; Casey&rsquo;s Cinema Creations</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  // Known pools get a friendly title; any NEW pool the server reports is
+  // shown too, under its own name — the board never hides a worker.
+  var POOL_INFO = {
+    "main":     {title:"Main Crew",     sub:"The crew that runs the main work orders."},
+    "personal": {title:"Personal Crew", sub:"The crew that runs Casey\u2019s personal jobs."}
+  };
+  var POOL_ORDER = ["main", "personal"];
+  var lastData = null;
+
+  function poolTitle(key){
+    if (POOL_INFO[key]) return POOL_INFO[key].title;
+    var pretty = key.replace(/_/g, " ").replace(/\b\w/g, function(c){ return c.toUpperCase(); });
+    return /crew$/i.test(pretty) ? pretty : pretty + " Crew";
+  }
+  function poolSub(key){
+    if (POOL_INFO[key]) return POOL_INFO[key].sub;
+    return "Another crew working on the web computer.";
+  }
+
+  function prettyName(name){
+    var parts = String(name).replace(/_/g," ").split(" ");
+    return parts.map(function(p){ return p.charAt(0).toUpperCase() + p.slice(1); }).join(" ");
+  }
+  function fmtUptime(s){
+    s = Math.max(0, Math.floor(s||0));
+    var d = Math.floor(s/86400), h = Math.floor((s%86400)/3600), m = Math.floor((s%3600)/60);
+    if (d > 0) return d + "d " + h + "h";
+    if (h > 0) return h + "h " + m + "m";
+    if (m > 0) return m + "m";
+    return s + "s";
+  }
+  function agoText(epoch){
+    var diff = Math.max(0, Math.floor(Date.now()/1000) - epoch);
+    if (diff < 8) return "just now";
+    if (diff < 60) return diff + "s ago";
+    var m = Math.floor(diff/60);
+    if (m < 60) return m + "m ago";
+    var h = Math.floor(m/60);
+    return h + "h " + (m%60) + "m ago";
+  }
+  function esc(t){
+    return String(t).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+  function render(data){
+    lastData = data;
+    var serverEl = document.getElementById("st-server");
+    if (data.server_ok) {
+      serverEl.innerHTML = '<span class="dot up"></span>Up';
+    } else {
+      serverEl.innerHTML = '<span class="dot down"></span>Down';
+    }
+    document.getElementById("st-uptime").textContent = data.server_ok ? fmtUptime(data.uptime_s) : "\u2014";
+    document.getElementById("st-done").textContent = data.server_ok ? data.tasks_done : "\u2014";
+    document.getElementById("st-queue").textContent = data.server_ok ? data.queue_total : "\u2014";
+
+    var board = document.getElementById("board");
+    var note = document.getElementById("note");
+    if (!data.server_ok) {
+      board.innerHTML = "";
+      note.textContent = "The web computer is not answering right now. This board will pick it back up on its own as soon as it responds.";
+      note.style.display = "block";
+      tickUpdated();
+      return;
+    }
+    // Group workers by whatever pools the feed reports right now.
+    var poolKeys = [];
+    (data.workers || []).forEach(function(w){
+      if (poolKeys.indexOf(w.pool) === -1) poolKeys.push(w.pool);
+    });
+    poolKeys.sort(function(a, b){
+      var ia = POOL_ORDER.indexOf(a), ib = POOL_ORDER.indexOf(b);
+      if (ia === -1) ia = 99; if (ib === -1) ib = 99;
+      if (ia !== ib) return ia - ib;
+      return a < b ? -1 : (a > b ? 1 : 0);
+    });
+    var html = "";
+    poolKeys.forEach(function(poolKey){
+      var crew = (data.workers || []).filter(function(w){ return w.pool === poolKey; });
+      if (!crew.length) return;
+      html += "<h2>" + esc(poolTitle(poolKey)) + "</h2>";
+      html += '<p class="pool-sub">' + esc(poolSub(poolKey)) + "</p>";
+      html += '<div class="grid">';
+      crew.forEach(function(w){
+        var working = (w.state === "working");
+        html += '<div class="worker"><div><div class="wname">' + esc(prettyName(w.name)) + "</div>" +
+                '<div class="wjobs">Jobs done: ' + esc(w.completed) + "</div></div>" +
+                '<span class="pill ' + (working ? "working" : "ready") + '"><span class="pdot"></span>' +
+                (working ? "Working" : "Ready") + "</span></div>";
+      });
+      html += "</div>";
+    });
+    board.innerHTML = html;
+    note.style.display = html ? "none" : "block";
+    if (!html) note.textContent = "No workers are reporting right now.";
+    tickUpdated();
+  }
+  function tickUpdated(){
+    if (!lastData) return;
+    document.getElementById("updated").textContent =
+      "Updated " + agoText(lastData.generated_at_epoch) + " \u00b7 this page checks again on its own";
+  }
+  function load(){
+    fetch("status.json?t=" + Date.now(), {cache:"no-store"})
+      .then(function(r){ if (!r.ok) throw new Error("bad response"); return r.json(); })
+      .then(render)
+      .catch(function(){
+        document.getElementById("updated").textContent = "Couldn\u2019t load the board data \u2014 retrying on its own.";
+      });
+  }
+  load();
+  setInterval(load, 30000);
+  setInterval(tickUpdated, 1000);
+})();
+</script>
+</body>
+</html>
