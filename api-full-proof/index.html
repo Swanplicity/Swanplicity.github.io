@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Api Full Proof</title>
+<style>
+    :root{
+      --ink:#17130a; --paper:#faf6ec; --gold:#c9a227; --gold-soft:#e8cf7a;
+      --card:#fffdf6; --line:#e5dcc4; --muted:#6f6a55;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--paper);color:var(--ink)}
+    header{background:#17130a;color:var(--paper);padding:20px 24px;display:flex;
+      justify-content:space-between;align-items:center;border-bottom:4px solid var(--gold)}
+    header .brand{font-size:15px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-soft)}
+    header .tag{font-size:13px;color:#cfc6a8}
+    .hero{padding:64px 24px 40px;text-align:center;background:
+      radial-gradient(ellipse at top,#fff8e1 0%,var(--paper) 65%)}
+    .hero h1{font-size:44px;margin:0 0 14px;line-height:1.1}
+    .hero p{font-size:19px;max-width:640px;margin:0 auto;color:#4c4636;line-height:1.55}
+    .rule{width:72px;height:3px;background:var(--gold);margin:28px auto 0}
+    main{max-width:920px;margin:0 auto;padding:24px}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin:24px 0 40px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px;
+      box-shadow:0 2px 10px rgba(23,19,10,.06)}
+    .card h2{font-size:19px;margin:0 0 8px;color:#17130a}
+    .card p{margin:0;font-size:15px;line-height:1.55;color:#4c4636}
+    .steps{background:#17130a;color:var(--paper);border-radius:12px;padding:28px;margin-bottom:40px}
+    .steps h2{margin:0 0 14px;color:var(--gold-soft);font-size:21px}
+    .steps ol{margin:0;padding-left:22px;line-height:1.9;font-size:16px}
+    footer{text-align:center;padding:28px 16px 40px;color:#8a8168;font-size:13px}
+    button,.btn{background:var(--gold);color:#17130a;border:none;border-radius:8px;
+      padding:12px 22px;font-size:16px;cursor:pointer;font-family:inherit}
+    button:hover,.btn:hover{background:var(--gold-soft)}
+    input[type=text]{width:100%;padding:12px 14px;font-size:16px;border:1px solid var(--line);
+      border-radius:8px;font-family:inherit;background:#fff}
+    ul.items{list-style:none;margin:18px 0;padding:0}
+    ul.items li{display:flex;align-items:center;gap:10px;background:var(--card);
+      border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+    ul.items li .txt{flex:1;font-size:16px}
+    ul.items li.done .txt{text-decoration:line-through;color:#8a8168}
+    ul.items li button{padding:7px 12px;font-size:14px}
+    .row{display:flex;gap:10px}
+    .row input{flex:1}
+    .count{color:#6f6a55;font-size:14px;margin-top:6px}
+    @media (max-width:560px){.hero h1{font-size:32px}.hero{padding:44px 18px 30px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Swanplicity</div>
+  <div class="tag">Api Full Proof</div>
+</header>
+<section class="hero">
+  <h1>Api Full Proof</h1>
+  <p>A page made and deployed by Casey API in one order, proving the whole chain works</p>
+  <div class="rule"></div>
+</section>
+<main>
+  <div class="cards">
+    <div class="card">
+      <h2>What this is</h2>
+      <p>A page made and deployed by Casey API in one order, proving the whole chain works</p>
+    </div>
+    <div class="card">
+      <h2>Why it matters</h2>
+      <p>Api Full Proof exists to do one job well. Everything on this page serves that job —
+      nothing extra, nothing in the way.</p>
+    </div>
+    <div class="card">
+      <h2>Built to last</h2>
+      <p>One file, no moving parts to break. Open it in any browser, on any
+      phone or computer, and it works the same every time.</p>
+    </div>
+  </div>
+  <div class="steps">
+    <h2>How it works</h2>
+    <ol>
+      <li>Start at the top — the point of Api Full Proof is stated plain, in one line.</li>
+      <li>Read the three cards — what it is, why it matters, how it holds up.</li>
+      <li>That is the whole page. Simple on purpose.</li>
+    </ol>
+  </div>
+</main>
+<footer>Api Full Proof · Made by Casey's API built-in makers</footer>
+</body>
+</html>
