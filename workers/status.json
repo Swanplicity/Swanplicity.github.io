@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-11-26T19:56:30Z",
- "generated_at_epoch": 1795722990,
+ "generated_at": "2026-11-26T20:01:36Z",
+ "generated_at_epoch": 1795723296,
  "queue_depths": {
   "crew": 0,
   "main": 0,
@@ -9,7 +9,7 @@
  "queue_total": 0,
  "server_ok": true,
  "tasks_done": 66,
- "uptime_s": 4455,
+ "uptime_s": 4761,
  "workers": [
   {
    "completed": 1,
