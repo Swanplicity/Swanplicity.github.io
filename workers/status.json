@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-11-28T10:18:50Z",
- "generated_at_epoch": 1795861130,
+ "generated_at": "2026-11-28T10:23:52Z",
+ "generated_at_epoch": 1795861432,
  "queue_depths": {
   "crew": 0,
   "main": 0,
@@ -8,8 +8,8 @@
  },
  "queue_total": 0,
  "server_ok": true,
- "tasks_done": 208,
- "uptime_s": 3684,
+ "tasks_done": 209,
+ "uptime_s": 3987,
  "workers": [
   {
    "completed": 1,
@@ -294,7 +294,7 @@
    "state": "idle"
   },
   {
-   "completed": 20,
+   "completed": 21,
    "name": "personal_3",
    "pool": "personal",
    "state": "idle"
